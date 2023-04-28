@@ -8,9 +8,9 @@ const routes = [
         props: true,
     },
     {
-        path: '/mainPage',
+        path: '/MainPage',
         name: 'MainPage',
-        component: () => import('../src/views/mainPage.vue'),
+        component: () => import('../src/views/MainPage.vue'),
         props: true,
     },
     {

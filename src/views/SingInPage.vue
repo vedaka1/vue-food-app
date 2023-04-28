@@ -1,31 +1,30 @@
 <template>
-    <div class="main">
+    <!-- <div class="main"> -->
     <div class="nav-header">
-      Столовка Сафу
+      <h2>Столовка</h2 > 
     </div>
     <body>
         <div class="login">
-            <div class="input-row">
                 <input class="font" type="text" placeholder="email" name="email" id="email">
                 <input class="font" type="password" placeholder="password" name="password" id="password">
-            </div>
             <div class="btns">
                 <RouterLink to='/RegisterPage'>
                     <button class="btn" name="register" id="register">Зарегистрироваться</button>
                 </RouterLink>
-                <RouterLink to='/mainPage'>
+                <RouterLink to='/MainPage'>
                     <button class="btn" name="login" id="login">Войти</button>
                 </RouterLink>
             </div>
         </div>
     </body>
-  </div>
+  <!-- </div> -->
 </template>
 
 <style scoped>
 
 .font{
   font-size: 0.9em;
+  font-family: 'Roboto', sans-serif;
 }
 .nav-header {
   display: flex;
@@ -34,13 +33,17 @@
   height: 50px;
   width: 90vw;
   margin: 5vw;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* border: 1px solid rgba(0, 0, 0, 0.1);
   color: white;
   border-radius: 15px;
   background-color: rgb(0, 0, 0);
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3); */
+  font-size: 1.5rem;
 }
 
+h2 {
+  font-weight: 400;
+}
 .login {
   display: flex;
   flex-direction: column;
