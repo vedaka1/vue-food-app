@@ -33,11 +33,6 @@ if (window.location.hash == '#/BasketPage') {c = true}
 
 <style scoped>
 
-.font{
-  font-size: 0.8em;
-  font-family: 'Roboto', sans-serif;
-}
-
 .main {
   position: fixed;
   bottom: 0;

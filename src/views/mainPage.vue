@@ -1,58 +1,59 @@
 <template>
     <div class="main-page">
         <TopBar/>
-        <div class="head-text">Доступные меню:</div>
+        
         <div class="carousel">
-            <RouterLink to="/">
+            <div class="head-text">Доступные меню:</div>
+            <RouterLink to="/MenuPage">
                 <button class="item">
                     Главный корпус САФУ<br>
                     наб. Северной Двины 17
                 <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
                 </button>
             </RouterLink>
-            <RouterLink to="/">
+            <RouterLink to="/MenuPage">
                 <button class="item">
                     Главный корпус САФУ<br>
                     наб. Северной Двины 17
                 <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
                 </button>
             </RouterLink>
-            <RouterLink to="/">
+            <RouterLink to="/MenuPage">
                 <button class="item">
                     Главный корпус САФУ<br>
                     наб. Северной Двины 17
                 <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
                 </button>
             </RouterLink>
-            <RouterLink to="/">
+            <RouterLink to="/MenuPage">
                 <button class="item">
                     Главный корпус САФУ<br>
                     наб. Северной Двины 17
                 <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
                 </button>
             </RouterLink>
-            <RouterLink to="/">
+            <RouterLink to="/MenuPage">
                 <button class="item">
                     Главный корпус САФУ<br>
                     наб. Северной Двины 17
                 <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
                 </button>
             </RouterLink>
-            <RouterLink to="/">
+            <RouterLink to="/MenuPage">
                 <button class="item">
                     Главный корпус САФУ<br>
                     наб. Северной Двины 17
                 <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
                 </button>
             </RouterLink>
-            <RouterLink to="/">
+            <RouterLink to="/MenuPage">
                 <button class="item">
                     Главный корпус САФУ<br>
                     наб. Северной Двины 17
                 <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
                 </button>
             </RouterLink>
-            <RouterLink to="/">
+            <RouterLink to="/MenuPage">
                 <button class="item">
                     Главный корпус САФУ<br>
                     наб. Северной Двины 17
@@ -68,10 +69,9 @@
 
 .main-page {
     width: 100vw;
-    height: 90vh;
-    margin-top: 7vh;
+    height: 83vh;
+    /* margin-top: 7vh; */
     margin-bottom: 10vh;
-    /* padding: 10px; */
 }
 .head-text {
     margin-top: 10px;
@@ -93,6 +93,9 @@
     /* flex-grow: 1; */
     /* height: 60vh; */
     width: 100%;
+    /* height: 93vh; */
+    /* margin-top: 7vh; */
+    /* padding-bottom: 10vh; */
     /* max-height: 50vw; */
     overflow: scroll;
     padding: 10px 10px 10px 0;
@@ -130,7 +133,9 @@ a .item {
     font-size: 0.7rem;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
-
+a:last-child {
+    margin-bottom: 10vh;
+}
 @media (min-width: 1000px) {
     .carousel {
         height: 25vh;

@@ -32,6 +32,11 @@ const routes = [
         path: '/LocationPage',
         component: () => import('../src/views/LocationPage.vue'),
         props: true,
+    },
+    {
+        path: '/MenuPage',
+        component: () => import('../src/views/MenuPage.vue'),
+        props: true,
     }
 ]
 
