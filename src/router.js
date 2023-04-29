@@ -17,6 +17,21 @@ const routes = [
         path: '/RegisterPage',
         component: () => import('../src/views/RegisterPage.vue'),
         props: true,
+    },
+    {
+        path: '/ProfilePage',
+        component: () => import('../src/views/ProfilePage.vue'),
+        props: true,
+    },
+    {
+        path: '/BasketPage',
+        component: () => import('../src/views/BasketPage.vue'),
+        props: true,
+    },
+    {
+        path: '/LocationPage',
+        component: () => import('../src/views/LocationPage.vue'),
+        props: true,
     }
 ]
 
