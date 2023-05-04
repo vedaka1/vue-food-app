@@ -4,6 +4,7 @@ import router from './router'
 import './assets/main.css'
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
+import { getApp } from "firebase/app";
 
 
 const firebaseConfig = {
@@ -16,6 +17,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const dbapp = initializeApp(firebaseConfig);
-getStorage(dbapp);
+initializeApp(firebaseConfig);
+const firebaseApp = getApp();
+getStorage(firebaseApp, "gs://stolovka-app.appspot.com/");
 createApp(App).use(router).mount('#app')

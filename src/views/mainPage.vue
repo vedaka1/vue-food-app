@@ -2,13 +2,14 @@
     <div class="main-page">
         <TopBar/>
         <div class="head-text">Доступные меню:</div>
-        <div class="carousel">
+        <div class="cards">
             <div class="card" v-for="card in cards" :key="card.id">
                 <RouterLink to="/">
-                    <button class="item">
-                        {{ card.name }}<br>
-                        {{ card.address }}
-                        <img url="{{ card.img_url }}">
+                    <button class="card-item" v-bind:style="{backgroundImage: 'url('+card.img_url+')'}">
+                            <p>
+                                {{ card.name }}<br>
+                                {{ card.address }}
+                            </p>
                     </button>
                 </RouterLink>
             </div> 
@@ -37,19 +38,11 @@
     font-size: 1.3rem;
     font-weight: 100;
     margin-top: 7vh;
-    /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3); */
 }
-
-.carousel {
+.cards {
     display: flex;
     flex-direction: row;
-    /* flex-grow: 1; */
-    /* height: 60vh; */
     width: 100%;
-    /* height: 93vh; */
-    /* margin-top: 7vh; */
-    /* padding-bottom: 10vh; */
-    /* max-height: 50vw; */
     overflow: scroll;
     padding: 10px 10px 10px 0;
     border-radius: 15px;
@@ -71,47 +64,46 @@ a {
     flex-basis: 50%;
 }
 
-a .item {
+a .card-item {
     width: 100%;
     height: 100%;
     background-color: white;
     border: none;
     border-radius: 15px;
-    background-image: url('../icons/main-build.jpg');
     background-repeat: no-repeat;
     background-position: 50% 0%;
     background-size: 250%;
     background-attachment: local;
-    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    padding: 5px;
-    font-size: 0.7rem;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    overflow: hidden;
 }
+p {
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+    width: 100%;
+    padding: 5px;
+    color: black;
+    font-size: 0.8rem;
+}
+
 a:last-child {
     margin-bottom: 10vh;
 }
-@media (min-width: 1000px) {
-    .carousel {
-        height: 25vh;
-    }
 
-    a {
-        width: 20vw;
-        height: 100%;
-    }
-}
 </style>
 
 <script>
 // Navigation bars import
 import BottomBar from "../components/BottomNavigation.vue";
 import TopBar from "../components/TopNavigation.vue"
+
 export default {
-    name: 'bar-ba',
+    name: 'navigation-bars',
     components: {
         BottomBar,
         TopBar
@@ -120,17 +112,23 @@ export default {
 </script>
 
 <script setup>
-// Connect to database to load cards
 import { ref, onMounted} from 'vue';
 import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getStorage, ref as storageRef , getDownloadURL } from "firebase/storage";
+// Connect database to load cards
 const db = getFirestore();
 const cards = ref([]);
+const storage = getStorage();
 onMounted(async () => {
     const querySnapshot = await getDocs((collection(db, `buildings`)));
     const fbCards = [];
     querySnapshot.forEach((doc) => {
         fbCards.push({ id: doc.id, ...doc.data() });
-        cards.value = fbCards;
-  });
+        });
+    for (let x in fbCards) {
+        fbCards[x].img_url = await getDownloadURL(storageRef(storage, fbCards[x].img_url))
+        .catch((error) => {console.log('URL Download ERROR')});
+        }    
+    cards.value = fbCards;
 });
 </script>
