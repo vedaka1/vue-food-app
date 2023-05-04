@@ -1,65 +1,17 @@
 <template>
     <div class="main-page">
         <TopBar/>
-        
+        <div class="head-text">Доступные меню:</div>
         <div class="carousel">
-            <div class="head-text">Доступные меню:</div>
-            <RouterLink to="/MenuPage">
-                <button class="item">
-                    Главный корпус САФУ<br>
-                    наб. Северной Двины 17
-                <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
-                </button>
-            </RouterLink>
-            <RouterLink to="/MenuPage">
-                <button class="item">
-                    Главный корпус САФУ<br>
-                    наб. Северной Двины 17
-                <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
-                </button>
-            </RouterLink>
-            <RouterLink to="/MenuPage">
-                <button class="item">
-                    Главный корпус САФУ<br>
-                    наб. Северной Двины 17
-                <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
-                </button>
-            </RouterLink>
-            <RouterLink to="/MenuPage">
-                <button class="item">
-                    Главный корпус САФУ<br>
-                    наб. Северной Двины 17
-                <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
-                </button>
-            </RouterLink>
-            <RouterLink to="/MenuPage">
-                <button class="item">
-                    Главный корпус САФУ<br>
-                    наб. Северной Двины 17
-                <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
-                </button>
-            </RouterLink>
-            <RouterLink to="/MenuPage">
-                <button class="item">
-                    Главный корпус САФУ<br>
-                    наб. Северной Двины 17
-                <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
-                </button>
-            </RouterLink>
-            <RouterLink to="/MenuPage">
-                <button class="item">
-                    Главный корпус САФУ<br>
-                    наб. Северной Двины 17
-                <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
-                </button>
-            </RouterLink>
-            <RouterLink to="/MenuPage">
-                <button class="item">
-                    Главный корпус САФУ<br>
-                    наб. Северной Двины 17
-                <!-- <img class="icon" src="../icons/main-build.jpg" alt="Главный корпус"> -->
-                </button>
-            </RouterLink>
+            <div class="card" v-for="card in cards" :key="card.id">
+                <RouterLink to="/">
+                    <button class="item">
+                        {{ card.name }}<br>
+                        {{ card.address }}
+                        <img url="{{ card.img_url }}">
+                    </button>
+                </RouterLink>
+            </div> 
         </div>
         <BottomBar/>
     </div>
@@ -79,11 +31,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 90vw;
+    width: 100vw;
     height: 40px;
     text-align: center;
     font-size: 1.3rem;
     font-weight: 100;
+    margin-top: 7vh;
     /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3); */
 }
 
@@ -105,7 +58,12 @@
 }
 
 a {
+    height: 100%;
+    width: 100%;
     text-decoration: none;
+}
+
+.card {
     padding-left: 10px;
     padding-top: 10px;
     height: 30vh;
@@ -149,13 +107,30 @@ a:last-child {
 </style>
 
 <script>
-    import BottomBar from "../components/BottomNavigation.vue";
-    import TopBar from "../components/TopNavigation.vue"
-    export default {
-        name: 'bar-ba',
-        components: {
-            BottomBar,
-            TopBar
-        }
+// Navigation bars import
+import BottomBar from "../components/BottomNavigation.vue";
+import TopBar from "../components/TopNavigation.vue"
+export default {
+    name: 'bar-ba',
+    components: {
+        BottomBar,
+        TopBar
     }
+}
+</script>
+
+<script setup>
+// Connect to database to load cards
+import { ref, onMounted} from 'vue';
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+const db = getFirestore();
+const cards = ref([]);
+onMounted(async () => {
+    const querySnapshot = await getDocs((collection(db, `buildings`)));
+    const fbCards = [];
+    querySnapshot.forEach((doc) => {
+        fbCards.push({ id: doc.id, ...doc.data() });
+        cards.value = fbCards;
+  });
+});
 </script>

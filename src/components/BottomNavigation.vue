@@ -42,8 +42,8 @@ if (window.location.hash == '#/BasketPage') {c = true}
   width: 100vw;
   color: white;
   font-family: 'Roboto', sans-serif;
-  height: 10vh;
-  background-color: rgb(255, 255, 255, 0.3);
+  height: 7vh;
+  background-color: rgb(255, 255, 255, 1);
   backdrop-filter: blur(15px);
   border-radius: 30px 30px 0 0;
 }
@@ -73,19 +73,20 @@ a::after {
     border: none;
     outline: 0;
     border-radius: 10px;
-    margin: 10px;
+    margin: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 0.7rem;
 }
 
 .icon {
-    width: 35px;
-    height: 35px;
+    width: 25px;
+    height: 25px;
     background-size: contain;
     background-repeat: no-repeat;
     align-self: center;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     user-select: none;
 }
 
