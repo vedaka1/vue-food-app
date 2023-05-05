@@ -34,7 +34,8 @@ const routes = [
         props: true,
     },
     {
-        path: '/MenuPage',
+        path: '/MenuPage/:id',
+        name: 'menu',
         component: () => import('../src/views/MenuPage.vue'),
         props: true,
     }

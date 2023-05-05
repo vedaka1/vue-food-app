@@ -4,7 +4,7 @@
         <div class="head-text">Доступные меню:</div>
         <div class="cards">
             <div class="card" v-for="card in cards" :key="card.id">
-                <RouterLink to="/">
+                <RouterLink :to="{name: 'menu', params: {id: card.id}}">
                     <button class="card-item" v-bind:style="{backgroundImage: 'url('+card.img_url+')'}">
                             <p>
                                 {{ card.name }}<br>
@@ -22,9 +22,9 @@
 
 .main-page {
     width: 100vw;
-    height: 83vh;
-    /* margin-top: 7vh; */
-    margin-bottom: 10vh;
+    height: 86vh;
+    margin-top: 7vh;
+    margin-bottom: 7vh;
 }
 .head-text {
     margin-top: 10px;
@@ -72,7 +72,7 @@ a .card-item {
     border-radius: 15px;
     background-repeat: no-repeat;
     background-position: 50% 0%;
-    background-size: 250%;
+    background-size: 200%;
     background-attachment: local;
     display: flex;
     flex-direction: column;
@@ -107,7 +107,7 @@ export default {
     components: {
         BottomBar,
         TopBar
-    }
+    },
 }
 </script>
 
