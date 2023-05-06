@@ -6,8 +6,25 @@
             <div class="info hours"> с {{hours[0]}} до {{hours[1]}}</div>
             <div class="info address">{{card.address}}</div>
         </div>
-        <div class="items" v-for="item in items" :key="item.id">
-            <div class="item">{{ item.name }} {{ item.price }} ₽</div>
+        <p>Супы</p>
+        <div class="cards">
+            <div class="card" v-for="item in items" :key="item.id">     
+                <div class="card-items">
+                    <RouterLink to="/">
+                        <img src="https://i0.wp.com/fartyk.ru/wp-content/uploads/2020/04/red-borsh.png" class="card-img">
+                    </RouterLink>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-name">{{ item.name }}</div>
+                            <div class="card-price">{{ item.price }} ₽</div>
+                        </div>
+                        <div class="buttons">
+                            <button class="btn">&plus;</button>
+                            <button class="btn">&ndash;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <BottomBar/>
     </div>
@@ -17,8 +34,6 @@
 
 .main-page {
     padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
     width: 100vw;
     height: 86vh;
     margin-bottom: 7vh;
@@ -29,6 +44,8 @@
 .head-text {
     height: 20vh;
     margin-top: 7vh;
+    margin-left: 10px;
+    margin-right: 10px;
     padding: 5px;
     gap: 5px;
     display: flex;
@@ -44,6 +61,10 @@
     margin-bottom: 10px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
+p {
+    padding-left: 10px;
+    /* text-align: center; */
+}
 
 .info {
     border-radius: 15px;
@@ -53,14 +74,86 @@
     font-size: 0.6em;
 }
 
-.item {
-    padding-left: 5px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+a {
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    border: none;
+}
+a:active,
+a:hover,
+a::after {
+    text-decoration: none;
+    background-color: none;
+    color: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.cards {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    overflow: scroll;
+    padding: 10px 10px 10px 0;
     border-radius: 15px;
-    font-size: 0.8em;
+    flex-grow: 1;
+    padding: 10px;
+    column-gap: 10px;
+}
+
+.card {
+    height: fit-content;
+    /* min-width: 40vw; */
+    flex-basis: 50%;
+}
+
+.card-name {
+    color: black;
+}
+.card-items {
+    /* width: 100%;
+    height: 100%; */
+    background-color: white;
+    border: none;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+.card-info {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+
+}
+.card-img {
+    width: 100%;
+    height: 70%;
+    border-radius: 15px;
+    object-fit: contain;
+}
+
+.btn {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    /* outline: 0; */
+    border: none;
+    font-size: 1.3em;
+}
+
+.buttons {
+    display: flex;
+    column-gap: 5px;
 }
 
 </style>
