@@ -54,6 +54,7 @@ a {
     height: 100%;
     width: 100%;
     text-decoration: none;
+    border: none;
 }
 
 .card {
@@ -82,13 +83,14 @@ a .card-item {
     overflow: hidden;
 }
 p {
-    background-color: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
     border-radius: 15px;
     width: 100%;
     padding: 5px;
     color: black;
     font-size: 0.8rem;
+    border: none;
 }
 
 a:last-child {
@@ -120,7 +122,7 @@ const db = getFirestore();
 const cards = ref([]);
 const storage = getStorage();
 onMounted(async () => {
-    const querySnapshot = await getDocs((collection(db, `buildings`)));
+    const querySnapshot = await getDocs(collection(db, `buildings`));
     const fbCards = [];
     querySnapshot.forEach((doc) => {
         fbCards.push({ id: doc.id, ...doc.data() });
@@ -128,7 +130,7 @@ onMounted(async () => {
     for (let x in fbCards) {
         fbCards[x].img_url = await getDownloadURL(storageRef(storage, fbCards[x].img_url))
         .catch((error) => {console.log('URL Download ERROR')});
-        }    
+        }
     cards.value = fbCards;
 });
 </script>
