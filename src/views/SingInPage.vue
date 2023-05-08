@@ -22,6 +22,9 @@
 
 <style scoped>
 
+video {
+    width: 100%;
+}
 .font{
   font-size: 0.9em;
   font-family: 'Roboto', sans-serif;

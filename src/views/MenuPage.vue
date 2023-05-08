@@ -1,26 +1,30 @@
 <template>
     <div class="main-page">
         <TopBar/>
-        <div class="head-text" v-bind:style="{backgroundImage: 'url('+img_url+')'}">
-            <div class="info name">{{card.name}}</div>
-            <div class="info hours"> с {{hours[0]}} до {{hours[1]}}</div>
-            <div class="info address">{{card.address}}</div>
-        </div>
-        <p>Супы</p>
-        <div class="cards">
-            <div class="card" v-for="item in items" :key="item.id">     
-                <div class="card-items">
-                    <RouterLink to="/">
-                        <img src="https://i0.wp.com/fartyk.ru/wp-content/uploads/2020/04/red-borsh.png" class="card-img">
-                    </RouterLink>
-                    <div class="card-info">
-                        <div>
-                            <div class="card-name">{{ item.name }}</div>
-                            <div class="card-price">{{ item.price }} ₽</div>
-                        </div>
-                        <div class="buttons">
-                            <button class="btn">&plus;</button>
-                            <button class="btn">&ndash;</button>
+        <div class="cards-list">
+            <div class="head-text" v-bind:style="{backgroundImage: 'url('+img_url+')'}">
+                <div class="info name">{{card.name}}</div>
+                <div class="info hours"> с {{hours[0]}} до {{hours[1]}}</div>
+                <div class="info address">{{card.address}}</div>
+            </div>
+            <div v-for="title in Object.keys(items)" :key="title">
+                <p>{{ title }}</p>
+                <div class="cards">
+                    <div class="card" v-for="item in items[title]" :key="item.id">    
+                        <div class="card-items">
+                            <RouterLink to="/">
+                                <img src="https://i0.wp.com/fartyk.ru/wp-content/uploads/2020/04/red-borsh.png" class="card-img">
+                            </RouterLink>
+                            <div class="card-info">
+                                <div>
+                                    <div class="card-name">{{ item.name }}</div>
+                                    <div class="card-price">{{ item.price }} ₽</div>
+                                </div>
+                                <div class="buttons">
+                                    <button class="btn">&plus;</button>
+                                    <button class="btn">&ndash;</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -35,10 +39,10 @@
 .main-page {
     padding-top: 10px;
     width: 100vw;
-    height: 86vh;
-    margin-bottom: 7vh;
+    /* height: 100vh; */
     display: flex;
     flex-direction: column;
+    overflow: scroll;
 }
 
 .head-text {
@@ -46,6 +50,7 @@
     margin-top: 7vh;
     margin-left: 10px;
     margin-right: 10px;
+    margin-bottom: 20px;
     padding: 5px;
     gap: 5px;
     display: flex;
@@ -58,12 +63,12 @@
     background-position: 0% 30%;
     background-size: 100%;
     background-attachment: local;
-    margin-bottom: 10px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 p {
-    padding-left: 10px;
     /* text-align: center; */
+    padding-left: 10px;
+    font-size: 1.2em;
 }
 
 .info {
@@ -88,30 +93,29 @@ a::after {
     color: none;
     -webkit-tap-highlight-color: transparent;
 }
+
 .cards {
-    display: flex;
-    flex-direction: row;
     width: 100%;
-    overflow: scroll;
     padding: 10px 10px 10px 0;
     border-radius: 15px;
-    flex-grow: 1;
-    padding: 10px;
+    column-count: 2;
     column-gap: 10px;
+    padding: 10px;
+}
+
+.cards-list {
+    margin-bottom: 7vh;
 }
 
 .card {
     height: fit-content;
-    /* min-width: 40vw; */
-    flex-basis: 50%;
+    margin-bottom: 10px;
 }
 
 .card-name {
     color: black;
 }
 .card-items {
-    /* width: 100%;
-    height: 100%; */
     background-color: white;
     border: none;
     border-radius: 15px;
@@ -149,6 +153,10 @@ a::after {
     /* outline: 0; */
     border: none;
     font-size: 1.3em;
+}
+
+.btn:active {
+    background-color: #d1d1d1;
 }
 
 .buttons {
@@ -199,10 +207,14 @@ onMounted(async () => {
     hours = card.value.working_hours
     
     const querySnapshotMenu = await getDocs(collection(db, `buildings`, id, 'menu'));
-    const fbMenu = [];
+    const fbMenu = {};
     querySnapshotMenu.forEach((doc) => {
-        fbMenu.push({ id: doc.id, ...doc.data() });
-        });  
+        if (doc.data().type in fbMenu) {
+            fbMenu[doc.data().type].push({ id: doc.id, ...doc.data() })
+        } else {
+            fbMenu[doc.data().type] = [{ id: doc.id, ...doc.data() }];  
+        }
+        }); 
     items.value = fbMenu;
 });
 

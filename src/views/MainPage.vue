@@ -40,14 +40,12 @@
     margin-top: 7vh;
 }
 .cards {
-    display: flex;
-    flex-direction: row;
     width: 100%;
     overflow: scroll;
-    padding: 10px 10px 10px 0;
+    padding: 10px;
     border-radius: 15px;
-    flex-wrap: wrap;
-    flex-grow: 1;
+    column-count: 2;
+    gap: 10px;
 }
 
 a {
@@ -58,11 +56,9 @@ a {
 }
 
 .card {
-    padding-left: 10px;
-    padding-top: 10px;
     height: 30vh;
     /* min-width: 40vw; */
-    flex-basis: 50%;
+    margin-bottom: 10px;
 }
 
 a .card-item {
