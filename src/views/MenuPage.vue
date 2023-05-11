@@ -12,7 +12,7 @@
                 <div class="cards">
                     <div class="card" v-for="item in items[title]" :key="item.id">    
                         <div class="card-items">
-                            <RouterLink to="/">
+                            <RouterLink :to="{name: 'food', params: {id: id, food_id: item.id}}">
                                 <img src="https://i0.wp.com/fartyk.ru/wp-content/uploads/2020/04/red-borsh.png" class="card-img">
                             </RouterLink>
                             <div class="card-info">
@@ -80,10 +80,8 @@ p {
 }
 
 a {
-    height: 100%;
-    width: 100%;
     text-decoration: none;
-    border: none;
+    border: none;  
 }
 a:active,
 a:hover,
@@ -110,8 +108,12 @@ a::after {
 .card {
     height: fit-content;
     margin-bottom: 10px;
+    animation: 0.5s show ease;
 }
-
+@keyframes show {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
 .card-name {
     color: black;
 }
@@ -138,18 +140,18 @@ a::after {
 }
 .card-img {
     width: 100%;
-    height: 70%;
+    height: 100%;
     border-radius: 15px;
     object-fit: contain;
 }
 
 .btn {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 15px;
+    border-radius: 10px;
     /* outline: 0; */
     border: none;
     font-size: 1.3em;

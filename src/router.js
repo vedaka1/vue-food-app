@@ -38,6 +38,12 @@ const routes = [
         name: 'menu',
         component: () => import('../src/views/MenuPage.vue'),
         props: true,
+    },
+    {
+        path: '/FoodPage/:id/:food_id',
+        name: 'food',
+        component: () => import('../src/views/FoodPage.vue'),
+        props: true,
     }
 ]
 

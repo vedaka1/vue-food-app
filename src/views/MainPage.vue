@@ -56,9 +56,14 @@ a {
 }
 
 .card {
-    height: 30vh;
+    height: 28vh;
     /* min-width: 40vw; */
     margin-bottom: 10px;
+    animation: 0.5s show ease;
+}
+@keyframes show {
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
 
 a .card-item {

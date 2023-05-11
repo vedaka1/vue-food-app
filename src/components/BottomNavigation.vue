@@ -40,12 +40,13 @@ if (window.location.hash == '#/BasketPage') {c = true}
   overflow: hidden;
   display: flex;
   width: 100vw;
+  align-items: center;
   color: white;
   font-family: 'Roboto', sans-serif;
   height: 7vh;
   background-color: rgb(255, 255, 255, 1);
-  backdrop-filter: blur(15px);
   border-radius: 30px 30px 0 0;
+  z-index: 1;
 }
 
 a {

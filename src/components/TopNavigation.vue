@@ -27,6 +27,7 @@
   padding: 10px;
   background-color: rgb(255, 255, 255, 0.5);
   backdrop-filter: blur(15px);
+  z-index: 1;
 }
 
 h2 {
