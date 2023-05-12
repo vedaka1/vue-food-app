@@ -2,7 +2,7 @@
     <div class="main-page">
         <TopBar/>
         <div class="cards-list">
-            <div class="head-text" v-bind:style="{backgroundImage: 'url('+img_url+')'}">
+            <div class="head-text" v-bind:style="{backgroundImage: 'url('+img_main+')'}">
                 <div class="info name">{{card.name}}</div>
                 <div class="info hours"> с {{hours[0]}} до {{hours[1]}}</div>
                 <div class="info address">{{card.address}}</div>
@@ -13,12 +13,15 @@
                     <div class="card" v-for="item in items[title]" :key="item.id">    
                         <div class="card-items">
                             <RouterLink :to="{name: 'food', params: {id: id, food_id: item.id}}">
-                                <img src="https://i0.wp.com/fartyk.ru/wp-content/uploads/2020/04/red-borsh.png" class="card-img">
+                                <img :src="item.img_url" class="card-img">
                             </RouterLink>
                             <div class="card-info">
-                                <div>
-                                    <div class="card-name">{{ item.name }}</div>
-                                    <div class="card-price">{{ item.price }} ₽</div>
+                                <div class="card-name">
+                                    <div>
+                                        {{ item.name }}<br>
+                                        {{ item.price }} ₽
+                                    </div>
+            
                                 </div>
                                 <div class="buttons">
                                     <button class="btn">&plus;</button>
@@ -50,7 +53,7 @@
     margin-top: 7vh;
     margin-left: 10px;
     margin-right: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding: 5px;
     gap: 5px;
     display: flex;
@@ -64,11 +67,12 @@
     background-size: 100%;
     background-attachment: local;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    overflow: hidden;
 }
 p {
     /* text-align: center; */
     padding-left: 10px;
-    font-size: 1.2em;
+    font-size: 1.3rem;
 }
 
 .info {
@@ -80,8 +84,12 @@ p {
 }
 
 a {
+    flex-basis: 80%;
+    width: 100%;
     text-decoration: none;
-    border: none;  
+    border: none; 
+    border-radius: 15px;
+    overflow: hidden;
 }
 a:active,
 a:hover,
@@ -93,6 +101,7 @@ a::after {
 }
 
 .cards {
+    height: 30vh;
     width: 100%;
     padding: 10px 10px 10px 0;
     border-radius: 15px;
@@ -106,7 +115,9 @@ a::after {
 }
 
 .card {
-    height: fit-content;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 10px;
     animation: 0.5s show ease;
 }
@@ -115,9 +126,14 @@ a::after {
     to {opacity: 1;}
 }
 .card-name {
+    height: 100%;
     color: black;
+    width: 50%;
+    font-size: 3.6vw;
+    padding-right: 5px;
 }
 .card-items {
+    height: 100%;
     background-color: white;
     border: none;
     border-radius: 15px;
@@ -129,6 +145,7 @@ a::after {
     overflow: hidden;
 }
 .card-info {
+    flex-basis: 20%;
     padding: 5px;
     display: flex;
     flex-direction: row;
@@ -138,16 +155,17 @@ a::after {
     font-size: 0.9em;
 
 }
-.card-img {
+a .card-img {
     width: 100%;
     height: 100%;
-    border-radius: 15px;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: 50% 50%;
 }
 
 .btn {
-    width: 35px;
-    height: 35px;
+    width: 100%;
+    max-width: 30px;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -162,7 +180,10 @@ a::after {
 }
 
 .buttons {
+    height: 100%;
+    width: 50%;
     display: flex;
+    justify-content: end;
     column-gap: 5px;
 }
 
@@ -197,14 +218,13 @@ const db = getFirestore();
 const items = ref([]);
 const storage = getStorage();
 const card = ref([]);
-let img_url = '';
+let img_main = '';
 let hours = [];
 
 onMounted(async () => {  
     const cardIdRef = await getDoc(doc(db, 'buildings', id));
-    let fbCard = [];
     card.value = cardIdRef.data();
-    img_url = await getDownloadURL(storageRef(storage, card.value.img_url))
+    img_main = await getDownloadURL(storageRef(storage, card.value.img_url))
     .catch((error) => {console.log('URL Download ERROR')});
     hours = card.value.working_hours
     
@@ -215,8 +235,13 @@ onMounted(async () => {
             fbMenu[doc.data().type].push({ id: doc.id, ...doc.data() })
         } else {
             fbMenu[doc.data().type] = [{ id: doc.id, ...doc.data() }];  
+        }});
+             
+    for (let x in fbMenu) {
+        for (let y in fbMenu[x]) {
+            fbMenu[x][y].img_url = await getDownloadURL(storageRef(storage, fbMenu[x][y].img_url));
         }
-        }); 
+    }
     items.value = fbMenu;
 });
 

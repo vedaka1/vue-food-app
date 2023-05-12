@@ -5,11 +5,12 @@
         <div class="cards">
             <div class="card" v-for="card in cards" :key="card.id">
                 <RouterLink :to="{name: 'menu', params: {id: card.id}}">
-                    <button class="card-item" v-bind:style="{backgroundImage: 'url('+card.img_url+')'}">
-                            <p>
-                                {{ card.name }}<br>
-                                {{ card.address }}
-                            </p>
+                    <button class="card-item">
+                        <img class="card-img" :src="card.img_url" alt="Здание">
+                        <p>
+                            {{ card.name }}<br>
+                            {{ card.address }}
+                        </p>
                     </button>
                 </RouterLink>
             </div> 
@@ -73,8 +74,8 @@ a .card-item {
     border: none;
     border-radius: 15px;
     background-repeat: no-repeat;
-    background-position: 50% 0%;
-    background-size: 200%;
+    background-position: 50% 50%;
+    background-size: cover;
     background-attachment: local;
     display: flex;
     flex-direction: column;
@@ -84,18 +85,26 @@ a .card-item {
     overflow: hidden;
 }
 p {
-    background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
     border-radius: 15px;
     width: 100%;
     padding: 5px;
     color: black;
-    font-size: 0.8rem;
+    font-size: 3.5vw;
     border: none;
+    padding: 5px;
 }
 
 a:last-child {
     margin-bottom: 10vh;
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    overflow: hidden;
+    border-radius: 15px;
 }
 
 </style>

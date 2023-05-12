@@ -1,7 +1,7 @@
 <template>
     <!-- <div class="main"> -->
     <div class="nav-header">
-      <h2>Столовка</h2 > 
+      Столовка Сафу
     </div>
     <body>
         <div class="login">
@@ -36,12 +36,11 @@ video {
   height: 50px;
   width: 90vw;
   margin: 5vw;
-  /* border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   color: white;
   border-radius: 15px;
   background-color: rgb(0, 0, 0);
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3); */
-  font-size: 1.5rem;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
 }
 
 h2 {

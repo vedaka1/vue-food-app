@@ -2,7 +2,7 @@
     <div class="main-page">
         <BottomBar/>
         <div class="head-text">
-            <img class="card-img" src="https://i0.wp.com/fartyk.ru/wp-content/uploads/2020/04/red-borsh.png" alt="" >
+            <img class="card-img" :src="item.img_url" alt="" >
             <div class="item-info">
                 <p>{{ item.type }} {{ item.name }} {{ item.price }} ₽</p>
             </div>
@@ -43,10 +43,14 @@
 }
 
 .card-img {
+    display: flex;
     height: 100%;
+    width: 100%;
+    flex-basis: 50%;
     border-radius: 15px;
-    object-fit: contain;
+    object-fit: cover;
     overflow: hidden;
+    object-position: 50% 50%;
 }
 .item-info {
     height: 100%;
@@ -78,21 +82,19 @@ export default {
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-// import { getStorage, ref as storageRef , getDownloadURL } from "firebase/storage";
+import { getStorage, ref as storageRef , getDownloadURL } from "firebase/storage";
 
 const id = useRouter().currentRoute.value.params.id;
 const food_id = useRouter().currentRoute.value.params.food_id;
 const item = ref([]);
 const db = getFirestore();
-// const storage = getStorage();
+const storage = getStorage();
 
 onMounted(async () => {  
     const cardIdRef = await getDoc(doc(db, 'buildings', id, 'menu', food_id));
-    let fbCard = [];
-    item.value = cardIdRef.data();
-    console.log(item.value)
-    // img_url = await getDownloadURL(storageRef(storage, item.value.img_url))
-    // .catch((error) => {console.log('URL Download ERROR')});
-
+    let fbCard = {};
+    fbCard = cardIdRef.data(); 
+    fbCard.img_url = await getDownloadURL(storageRef(storage, fbCard.img_url))
+    item.value = fbCard;
 });
 </script>
