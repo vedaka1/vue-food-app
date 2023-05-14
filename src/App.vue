@@ -1,11 +1,25 @@
 <template>
   <div class="main">
-    <RouterView></RouterView>
+    <RouterView>
+    </RouterView>
   </div>
 </template>
 
-<script>
+<script setup>
+import { onMounted, ref } from "vue";
+import { getAuth, onAuthStateChanged} from "firebase/auth";
 
+const isLoggedIn = ref(false);
+let auth = getAuth();
+onMounted(() => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      isLoggedIn.value = true;
+    } else {
+      isLoggedIn.value = false;
+    }
+  });
+});
 </script>
 
 <style scoped>

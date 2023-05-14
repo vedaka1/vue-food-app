@@ -1,7 +1,9 @@
 <template>
     <div>
         <TopBar/>
-        <div class="main-page">Тут будут ваши данные </div>
+        <div class="main-page">Тут будут ваши данные 
+            <button @click="handleSignOut">Выйти</button>
+        </div>
         <BottomBar/>
     </div>
 </template>
@@ -14,7 +16,12 @@
         components: {
             BottomBar,
             TopBar
-        }
+        },
+        data() {
+        return {
+            dialog: false
+        };
+    },
     }
 </script>
 
@@ -29,4 +36,17 @@
 }
 
 </style>
+
+<script setup>
+import { getAuth, signOut } from "firebase/auth";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+let auth = getAuth();
+const handleSignOut = () => {
+  signOut(auth).then(() => {
+    router.push("/");
+  });
+};
+</script>
 

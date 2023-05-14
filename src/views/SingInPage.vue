@@ -1,30 +1,23 @@
 <template>
-    <!-- <div class="main"> -->
     <div class="nav-header">
       Столовка Сафу
     </div>
     <body>
         <div class="login">
-                <input class="font" type="text" placeholder="email" name="email" id="email">
-                <input class="font" type="password" placeholder="password" name="password" id="password">
+                <input class="font" type="text" placeholder="email" name="email" id="email" v-model="email">
+                <input class="font" type="password" placeholder="password" name="password" id="password" v-model="password">
             <div class="btns">
-                <RouterLink to='/RegisterPage'>
-                    <button class="btn" name="register" id="register">Зарегистрироваться</button>
-                </RouterLink>
-                <RouterLink to='/MainPage'>
-                    <button class="btn" name="login" id="login">Войти</button>
+                <button class="btn" name="login" id="login" @click="signIn">Войти</button>
+                <RouterLink to='/RegisterPage' name="register" id="register">
+                    Зарегистрироваться
                 </RouterLink>
             </div>
         </div>
     </body>
-  <!-- </div> -->
 </template>
 
 <style scoped>
 
-video {
-    width: 100%;
-}
 .font{
   font-size: 0.9em;
   font-family: 'Roboto', sans-serif;
@@ -73,16 +66,15 @@ input:focus {
 }
 
 .login .btns {
-  width: 100%;
   display: flex;
-  justify-content: space-between;
+  width: 100%;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .btns .btn {
   font-size: 0.9em;
   width: 100%;
-  padding-left: 5px;
-  padding-right: 5px;
   height: 50px;
   border-radius: 15px;
   margin: 10px 0 0 0;
@@ -91,10 +83,11 @@ input:focus {
   background-color: rgb(0, 0, 0);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
 }
-
-a {
-    width: 48%;
+.login a {
+    text-align: center;
+    text-decoration: none;
 }
+
 .btn:hover {
   background-color: rgb(59, 59, 59);
 }
@@ -104,3 +97,27 @@ a {
 }
 
 </style>
+
+<script setup>
+import { ref } from "vue";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  // GoogleAuthProvider,
+  // signInWithRedirect,
+} from "firebase/auth";
+import { useRouter } from "vue-router";
+const email = ref("");
+const password = ref("");
+const router = useRouter();
+const auth = getAuth();
+const signIn = () => {
+  signInWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => {
+      router.push("/MainPage");
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+};
+</script>
