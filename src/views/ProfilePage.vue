@@ -1,32 +1,14 @@
 <template>
     <div>
-        <TopBar/>
         <div class="main-page">
             <div class="user-info">
                 Тут будут ваши данные
+                {{ account.login }}
             </div>
             <button class="btn" @click="handleSignOut">Выйти</button>
         </div>
-        <BottomBar/>
     </div>
 </template>
-
-<script>
-    import BottomBar from "../components/BottomNavigation.vue";
-    import TopBar from "../components/TopNavigation.vue"
-    export default {
-        name: 'bar-ba',
-        components: {
-            BottomBar,
-            TopBar
-        },
-        data() {
-        return {
-            dialog: false
-        };
-    },
-    }
-</script>
 
 <style scoped>
 
@@ -64,9 +46,20 @@
 
 <script setup>
 import { getAuth, signOut } from "firebase/auth";
+import { getDoc, doc, getFirestore } from "firebase/firestore";
 import { useRouter } from "vue-router";
+import { ref, onMounted } from "vue";
 
+const db = getFirestore()
+const account = ref([])
+const user = getAuth().currentUser.uid;
 const router = useRouter();
+
+onMounted(async () => {
+    const userRef = await getDoc(doc(db, 'users', user));
+    account.value = userRef.data();
+})
+
 let auth = getAuth();
 const handleSignOut = () => {
   signOut(auth).then(() => {

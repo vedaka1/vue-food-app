@@ -1,8 +1,8 @@
 <template>
-    <div class="nav-header">
-      Столовка Сафу
-    </div>
-    <body>
+    <div class="main">
+        <div class="nav-header">
+            Столовка Сафу
+        </div>
         <div class="login">
                 <input class="font" type="text" placeholder="email" name="email" id="email" v-model="email">
                 <input class="font" type="password" placeholder="password" name="password" id="password" v-model="password">
@@ -13,7 +13,7 @@
                 </RouterLink>
             </div>
         </div>
-    </body>
+    </div> 
 </template>
 
 <style scoped>
@@ -24,16 +24,24 @@
 }
 .nav-header {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 50px;
-  width: 90vw;
-  margin: 5vw;
+  width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   color: white;
   border-radius: 15px;
   background-color: rgb(0, 0, 0);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.main {
+  padding: 10px;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 h2 {
@@ -43,8 +51,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90vw;
-  margin: 5vw;
+  width: 100%;
   margin-top: 20vh;
   font-family: 'Roboto', sans-serif;
 }
@@ -88,7 +95,6 @@ input:focus {
     text-decoration: none;
     color: gray;
 }
-
 .btn:hover {
   background-color: rgb(59, 59, 59);
 }

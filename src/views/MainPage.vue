@@ -1,6 +1,5 @@
 <template>
     <div class="main-page">
-        <TopBar/>
         <div class="head-text">Доступные меню:</div>
         <div class="cards">
             <div class="card" v-for="card in cards" :key="card.id">
@@ -15,7 +14,6 @@
                 </RouterLink>
             </div> 
         </div>
-        <BottomBar/>
     </div>
 </template>
 
@@ -109,20 +107,6 @@ a:last-child {
 
 </style>
 
-<script>
-// Navigation bars import
-import BottomBar from "../components/BottomNavigation.vue";
-import TopBar from "../components/TopNavigation.vue"
-
-export default {
-    name: 'navigation-bars',
-    components: {
-        BottomBar,
-        TopBar
-    },
-}
-</script>
-
 <script setup>
 import { ref, onMounted} from 'vue';
 import { getFirestore, collection, getDocs } from "firebase/firestore";
@@ -139,7 +123,7 @@ onMounted(async () => {
         });
     for (let x in fbCards) {
         fbCards[x].img_url = await getDownloadURL(storageRef(storage, fbCards[x].img_url))
-        .catch((error) => {console.log('URL Download ERROR')});
+        .catch((error) => {console.log(error.message)});
         }
     cards.value = fbCards;
 });

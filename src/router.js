@@ -90,18 +90,18 @@ const getCurrentUser = () => {
     });
   };
   
-  router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
     const isAuthenticated = await getCurrentUser();
     if (requiresAuth && !isAuthenticated) {
-      next("/SignInPage");
+        next("/SignInPage");
     } else if (
-      (to.path === "/SignInPage" || to.path === "/RegisterPage") &&
-      isAuthenticated
+        (to.path === "/SignInPage" || to.path === "/RegisterPage") &&
+        isAuthenticated
     ) {
-      next("/");
+        next("/");
     } else {
-      next();
+        next();
     }
   });
 

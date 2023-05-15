@@ -1,13 +1,11 @@
 <template>
     <div class="main-page">
-        <BottomBar/>
         <div class="head-text">
             <img class="card-img" :src="item.img_url" alt="food image" >
             <div class="item-info">
                 <p>{{ item.type }} {{ item.name }} {{ item.price }} ₽</p>
             </div>
         </div>
-        <TopBar/>
     </div>
 </template>
 
@@ -61,23 +59,6 @@
     flex-direction: column;
 }
 </style>
-
-<script>
-import BottomBar from "../components/BottomNavigation.vue";
-import TopBar from "../components/TopNavigation.vue"
-export default {
-    name: 'bar-ba',
-    components: {
-        BottomBar,
-        TopBar
-    },
-    data() {
-        return {
-            dialog: false
-        };
-    },
-}
-</script>
 
 <script setup>
 import { ref, onMounted } from "vue";

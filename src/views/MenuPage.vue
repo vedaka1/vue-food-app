@@ -1,6 +1,5 @@
 <template>
     <div class="main-page">
-        <TopBar/>
         <div class="cards-list">
             <div class="head-text" v-bind:style="{backgroundImage: 'url('+img_main+')'}">
                 <div class="info name">{{card.name}}</div>
@@ -33,7 +32,6 @@
                 </div>
             </div>
         </div>
-        <BottomBar/>
     </div>
 </template>
 
@@ -189,23 +187,6 @@ a .card-img {
 
 </style>
 
-<script>
-import BottomBar from "../components/BottomNavigation.vue";
-import TopBar from "../components/TopNavigation.vue"
-export default {
-    name: 'bar-ba',
-    components: {
-        BottomBar,
-        TopBar
-    },
-    data() {
-        return {
-            dialog: false
-        };
-    },
-}
-</script>
-
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
@@ -225,7 +206,7 @@ onMounted(async () => {
     const cardIdRef = await getDoc(doc(db, 'buildings', id));
     card.value = cardIdRef.data();
     img_main = await getDownloadURL(storageRef(storage, card.value.img_url))
-    .catch((error) => {console.log('URL Download ERROR')});
+    .catch((error) => {console.log(error.message)});
     hours = card.value.working_hours
     
     const querySnapshotMenu = await getDocs(collection(db, `buildings`, id, 'menu'));

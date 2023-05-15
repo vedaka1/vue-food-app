@@ -1,25 +1,47 @@
 <template>
   <div class="main">
+    <TopBar :login="account.login" v-if="isLoggedIn"/>
     <RouterView>
     </RouterView>
+    <BottomBar v-if="isLoggedIn"/>
   </div>
 </template>
 
+
+<script>
+import BottomBar from "@/components/BottomNavigation.vue";
+import TopBar from "@/components/TopNavigation.vue"
+export default {
+    name: 'navigation-bars',
+    components: {
+        BottomBar,
+        TopBar
+    },
+    data() {
+    return {
+        dialog: false
+    };
+},
+}
+</script>
 <script setup>
 import { onMounted, ref } from "vue";
 import { getAuth, onAuthStateChanged} from "firebase/auth";
 
 const isLoggedIn = ref(false);
+const account = ref([]);
+
 let auth = getAuth();
-onMounted(() => {
+onMounted(async() => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      isLoggedIn.value = true;
+        isLoggedIn.value = true;
     } else {
-      isLoggedIn.value = false;
+        isLoggedIn.value = false;
     }
-  });
+    });
 });
+
 </script>
 
 <style scoped>

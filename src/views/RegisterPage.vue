@@ -1,27 +1,31 @@
 <template>
     <div class="main">
-    <div class="nav-header">
-      Столовка Сафу
-    </div>
-    <body>
+        <div class="nav-header">
+            Столовка Сафу
+        </div>
         <form class="login">
             <div class="input-row">
-                <input class="font" type="text" placeholder="Придумайте login" name="login" id="login">
-                <input class="font" type="text" placeholder="email" name="email" id="email">
-                <input class="font" type="password" placeholder="password" name="password" id="password">
+                <input class="font" type="text" placeholder="login" name="login" id="login" v-model="login">
+                <input class="font" type="text" placeholder="email" name="email" id="email" v-model="email">
+                <input class="font" type="password" placeholder="password" name="password" id="password" v-model="password">
             </div>
             <div class="btns">
-                <RouterLink to='/'>
-                    <button class="btn" name="register" id="register">Зарегистрироваться</button>
-                </RouterLink>
+                <button class="btn" name="register" id="register" @click="register">Зарегистрироваться</button>
             </div>
+            <RouterLink to="/SignInPage">
+              Назад
+            </RouterLink>
         </form>
-    </body>
   </div>
 </template>
 
 <style scoped>
-
+.main {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    padding: 10px;
+}
 .font{
   font-size: 0.9em;
 }
@@ -30,8 +34,7 @@
   justify-content: center;
   align-items: center;
   height: 50px;
-  width: 90vw;
-  margin: 5vw;
+  width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   color: white;
   border-radius: 15px;
@@ -43,8 +46,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90vw;
-  margin: 5vw;
+  width: 100%;
   margin-top: 20vh;
   font-family: 'Roboto', sans-serif;
 }
@@ -86,7 +88,11 @@ input:focus {
 }
 
 a {
-    width: 48%;
+    width: 100% ;
+    text-decoration: none;
+    color: gray;
+    padding-top: 20px;
+    text-align: center;
 }
 
 .btn:hover {
@@ -98,3 +104,32 @@ a {
 }
 
 </style>
+<script setup>
+import { ref } from "vue"
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { getFirestore, collection, setDoc, doc} from "firebase/firestore"
+import { useRouter } from "vue-router";
+
+const login = ref("");
+const email = ref("");
+const password = ref("");
+const router = useRouter();
+const auth = getAuth();
+const db = getFirestore();
+const userRef = collection(db, "users")
+
+const register = () => {
+  createUserWithEmailAndPassword(auth, email.value, password.value)
+    .then((cred) => {
+        router.push("/SignInPage");
+        return setDoc(
+            doc(userRef, cred.user.uid), 
+            {
+                login: login.value
+            })
+    })
+    .catch((error) => {
+        alert(error.message);
+    });
+};
+</script>

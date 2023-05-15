@@ -1,7 +1,6 @@
 <template>
     <div>
-        <TopBar/>
-        <BottomBar/>
+        text
     </div>
 </template>
 
@@ -10,13 +9,4 @@
 </style>
 
 <script>
-    import BottomBar from "../components/BottomNavigation.vue";
-    import TopBar from "../components/TopNavigation.vue"
-    export default {
-        name: 'bar-ba',
-        components: {
-            BottomBar,
-            TopBar
-        }
-    }
 </script>
