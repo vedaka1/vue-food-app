@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <RouterLink to='/MainPage'>
+        <RouterLink to='/'>
             <button class="btn" name="login">
                 <img v-if="a" class="icon" src="../icons/food-icon-black.png" alt="+"> 
                 <img v-else class="icon" src="../icons/food-icon-gray.png" alt="+">
@@ -26,7 +26,7 @@
 
 <script setup>
 let a, b, c = false
-if (window.location.hash == '#/MainPage') {a = true} 
+if (window.location.hash == '#/') {a = true} 
 if (window.location.hash == '#/LocationPage') {b = true} 
 if (window.location.hash == '#/BasketPage') {c = true} 
 </script>

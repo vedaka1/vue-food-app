@@ -4,15 +4,15 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const routes = [
     {
-        path: '/',
-        component: () => import('../src/views/SingInPage.vue'),
+        path: '/SignInPage',
+        component: () => import('../src/views/SignInPage.vue'),
         props: true,
         meta: {
             requiresAuth: false,
           },
     },
     {
-        path: '/MainPage',
+        path: '/',
         name: 'MainPage',
         component: () => import('../src/views/MainPage.vue'),
         props: true,
@@ -94,12 +94,12 @@ const getCurrentUser = () => {
     const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
     const isAuthenticated = await getCurrentUser();
     if (requiresAuth && !isAuthenticated) {
-      next("/");
+      next("/SignInPage");
     } else if (
-      (to.path === "/" || to.path === "/") &&
+      (to.path === "/SignInPage" || to.path === "/RegisterPage") &&
       isAuthenticated
     ) {
-      next("/MainPage");
+      next("/");
     } else {
       next();
     }

@@ -86,6 +86,7 @@ input:focus {
 .login a {
     text-align: center;
     text-decoration: none;
+    color: gray;
 }
 
 .btn:hover {
@@ -94,6 +95,15 @@ input:focus {
 
 .btn:active {
   background-color: rgb(119, 119, 119);
+}
+
+a:active,
+a:hover,
+a::after {
+    text-decoration: none;
+    background-color: none;
+    color: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 </style>
@@ -114,7 +124,7 @@ const auth = getAuth();
 const signIn = () => {
   signInWithEmailAndPassword(auth, email.value, password.value)
     .then(() => {
-      router.push("/MainPage");
+      router.push("/");
     })
     .catch((error) => {
       alert(error.message);

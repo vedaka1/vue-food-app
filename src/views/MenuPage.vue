@@ -13,7 +13,7 @@
                     <div class="card" v-for="item in items[title]" :key="item.id">    
                         <div class="card-items">
                             <RouterLink :to="{name: 'food', params: {id: id, food_id: item.id}}">
-                                <img :src="item.img_url" class="card-img">
+                                <img :src="item.img_url" class="card-img" alt="+">
                             </RouterLink>
                             <div class="card-info">
                                 <div class="card-name">

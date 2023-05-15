@@ -1,8 +1,11 @@
 <template>
     <div>
         <TopBar/>
-        <div class="main-page">Тут будут ваши данные 
-            <button @click="handleSignOut">Выйти</button>
+        <div class="main-page">
+            <div class="user-info">
+                Тут будут ваши данные
+            </div>
+            <button class="btn" @click="handleSignOut">Выйти</button>
         </div>
         <BottomBar/>
     </div>
@@ -33,6 +36,28 @@
     margin-top: 7vh;
     margin-bottom: 10vh;
     text-align: center; 
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.btn {
+  font-size: 0.9em;
+  width: 50%;
+  height: 50px;
+  border-radius: 15px;
+  margin: 10px 0 0 0;
+  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgb(0, 0, 0);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+.user-info {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    padding: 10px;
+    width: 100%;
 }
 
 </style>

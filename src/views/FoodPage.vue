@@ -2,7 +2,7 @@
     <div class="main-page">
         <BottomBar/>
         <div class="head-text">
-            <img class="card-img" :src="item.img_url" alt="" >
+            <img class="card-img" :src="item.img_url" alt="food image" >
             <div class="item-info">
                 <p>{{ item.type }} {{ item.name }} {{ item.price }} ₽</p>
             </div>
@@ -27,7 +27,6 @@
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 20px;
-    padding: 5px;
     gap: 5px;
     display: flex;
     justify-content: space-between;
@@ -35,11 +34,12 @@
     text-align: center;
     font-size: 1.3rem;
     font-weight: 100;
-    background-repeat: no-repeat;
-    background-position: 0% 30%;
-    background-size: 100%;
-    background-attachment: local;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    animation: 0.5s show ease;
+}
+@keyframes show {
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
 
 .card-img {
@@ -55,6 +55,7 @@
 .item-info {
     height: 100%;
     flex-grow: 1;
+    padding: 5px;
     width: auto;
     display: flex;
     flex-direction: column;
