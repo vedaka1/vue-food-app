@@ -31,10 +31,6 @@
   z-index: 1;
 }
 
-h2 {
-    font-weight: 200;
-}
-
 .icon {
     width: 20px;
     height: 20px;

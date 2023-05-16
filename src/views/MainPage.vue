@@ -88,6 +88,7 @@ p {
     padding: 5px;
     color: black;
     font-size: 3.5vw;
+    font-weight: 700;
     border: none;
     padding: 5px;
 }

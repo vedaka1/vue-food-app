@@ -120,12 +120,15 @@ const userRef = collection(db, "users")
 
 const register = () => {
   createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then((cred) => {
+    .then(async (cred) => {
         router.push("/SignInPage");
-        return setDoc(
+        return await setDoc(
             doc(userRef, cred.user.uid), 
             {
                 login: login.value
+            })
+            .catch((error) =>{
+              alert(error.message)
             })
     })
     .catch((error) => {

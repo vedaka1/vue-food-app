@@ -2,8 +2,7 @@
     <div>
         <div class="main-page">
             <div class="user-info">
-                Тут будут ваши данные
-                {{ account.login }}
+                <div>логин: {{ account.login }}</div>
             </div>
             <button class="btn" @click="handleSignOut">Выйти</button>
         </div>
@@ -40,6 +39,9 @@
     border-radius: 15px;
     padding: 10px;
     width: 100%;
+    display: flex;
+    color: gray;
+    flex-direction: column;
 }
 
 </style>

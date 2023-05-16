@@ -26,9 +26,9 @@
 
 <script setup>
 let a, b, c = false
-if (window.location.hash == '#/') {a = true} 
-if (window.location.hash == '#/LocationPage') {b = true} 
-if (window.location.hash == '#/BasketPage') {c = true} 
+if (window.location.hash == '/') {a = true} 
+if (window.location.hash == '/LocationPage') {b = true} 
+if (window.location.hash == '/BasketPage') {c = true} 
 </script>
 
 <style scoped>

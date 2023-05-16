@@ -3,7 +3,8 @@
         <div class="head-text">
             <img class="card-img" :src="item.img_url" alt="food image" >
             <div class="item-info">
-                <p>{{ item.type }} {{ item.name }} {{ item.price }} ₽</p>
+                <p>{{ item.type }} {{ item.name }}</p>
+                <div>{{ item.price }} ₽</div>
             </div>
         </div>
     </div>
@@ -25,9 +26,7 @@
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 20px;
-    gap: 5px;
     display: flex;
-    justify-content: space-between;
     border-radius: 20px;
     text-align: center;
     font-size: 1.3rem;
@@ -53,10 +52,12 @@
 .item-info {
     height: 100%;
     flex-grow: 1;
-    padding: 5px;
+    padding: 10px;
     width: auto;
     display: flex;
     flex-direction: column;
+    text-align: end;
+    justify-content: space-between;
 }
 </style>
 

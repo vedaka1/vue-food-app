@@ -12,7 +12,7 @@
                     <div class="card" v-for="item in items[title]" :key="item.id">    
                         <div class="card-items">
                             <RouterLink :to="{name: 'food', params: {id: id, food_id: item.id}}">
-                                <img :src="item.img_url" class="card-img" alt="+">
+                                <img :src="item.img_url" class="card-img">
                             </RouterLink>
                             <div class="card-info">
                                 <div class="card-name">
@@ -23,8 +23,8 @@
             
                                 </div>
                                 <div class="buttons">
-                                    <button class="btn">&plus;</button>
-                                    <button class="btn">&ndash;</button>
+                                    <button class="btn" id="addItem" @click="addItem">&plus;</button>
+                                    <button class="btn" id="deleteItem" @click="deleteItem">&ndash;</button>
                                 </div>
                             </div>
                         </div>
@@ -191,7 +191,7 @@ a .card-img {
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { getFirestore, collection, getDocs, doc, getDoc } from "firebase/firestore";
-import { getStorage, ref as storageRef , getDownloadURL } from "firebase/storage";
+import { getStorage, ref as storageRef  , getDownloadURL } from "firebase/storage";
 // import { getAuth } from "firebase/auth";
 
 const id = useRouter().currentRoute.value.params.id;
@@ -218,10 +218,14 @@ onMounted(async () => {
             fbMenu[doc.data().type] = [{ id: doc.id, ...doc.data() }];  
         }});
              
-    for (let x in fbMenu) {
-        for (let y in fbMenu[x]) {
-            fbMenu[x][y].img_url = await getDownloadURL(storageRef(storage, fbMenu[x][y].img_url));
-        }
+    try {
+        for (let x in fbMenu) {
+            for (let y in fbMenu[x]) {
+                fbMenu[x][y].img_url = await getDownloadURL(storageRef(storage, fbMenu[x][y].img_url));
+            }
+    } 
+    } catch (error) {
+        console.log(error.message)
     }
     items.value = fbMenu;
 });
