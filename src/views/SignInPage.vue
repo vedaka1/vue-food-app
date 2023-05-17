@@ -20,7 +20,6 @@
 
 .font{
   font-size: 0.9em;
-  font-family: 'Roboto', sans-serif;
 }
 .nav-header {
   display: flex;

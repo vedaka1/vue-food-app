@@ -12,23 +12,22 @@
 
 <style scoped>
 .main-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 7vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-  font-family: 'Roboto', sans-serif;
-  color: black;
-  font-size: 1rem;
-  align-items: center;
-  padding: 10px;
-  background-color: rgb(255, 255, 255, 0.5);
-  backdrop-filter: blur(15px);
-  z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 7vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    color: black;
+    font-size: 1rem;
+    align-items: center;
+    padding: 10px;
+    background-color: rgb(255, 255, 255, 0.5);
+    backdrop-filter: blur(15px);
+    z-index: 1;
 }
 
 .icon {

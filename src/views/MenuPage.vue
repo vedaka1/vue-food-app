@@ -1,31 +1,28 @@
 <template>
     <div class="main-page">
-        <div class="cards-list">
-            <div class="head-text" v-bind:style="{backgroundImage: 'url('+img_main+')'}">
-                <div class="info name">{{card.name}}</div>
-                <div class="info hours"> с {{hours[0]}} до {{hours[1]}}</div>
-                <div class="info address">{{card.address}}</div>
-            </div>
-            <div v-for="title in Object.keys(items)" :key="title">
-                <p>{{ title }}</p>
-                <div class="cards">
-                    <div class="card" v-for="item in items[title]" :key="item.id">    
-                        <div class="card-items">
-                            <RouterLink :to="{name: 'food', params: {id: id, food_id: item.id}}">
-                                <img :src="item.img_url" class="card-img">
-                            </RouterLink>
-                            <div class="card-info">
-                                <div class="card-name">
-                                    <div>
-                                        {{ item.name }}<br>
-                                        {{ item.price }} ₽
-                                    </div>
-            
+        <div class="head-text" v-bind:style="{backgroundImage: 'url('+img_main+')'}">
+            <div class="info name">{{card.name}}</div>
+            <div class="info hours"> с {{hours[0]}} до {{hours[1]}}</div>
+            <div class="info address">{{card.address}}</div>
+        </div>
+        <div v-for="title in Object.keys(items)" :key="title">
+            <p>{{ title }}</p>
+            <div class="cards">
+                <div class="card" v-for="item in items[title]" :key="item.id">    
+                    <div class="card-items">
+                        <RouterLink :to="{name: 'food', params: {id: id, food_id: item.id}}">
+                            <img :src="item.img_url" class="card-img">
+                        </RouterLink>
+                        <div class="card-info">
+                            <div class="card-name">
+                                <div>
+                                    {{ item.name }}<br>
+                                    {{ item.price }} ₽
                                 </div>
-                                <div class="buttons">
-                                    <button class="btn" id="addItem" @click="addItem">&plus;</button>
-                                    <button class="btn" id="deleteItem" @click="deleteItem">&ndash;</button>
-                                </div>
+                            </div>
+                            <div class="buttons">
+                                <button class="btn" id="addItem" @click="addItem">&plus;</button>
+                                <button class="btn" id="deleteItem" @click="deleteItem">&minus;</button>
                             </div>
                         </div>
                     </div>
@@ -44,6 +41,7 @@
     display: flex;
     flex-direction: column;
     overflow: scroll;
+    margin-bottom: 7vh;
 }
 
 .head-text {
@@ -68,7 +66,6 @@
     overflow: hidden;
 }
 p {
-    /* text-align: center; */
     padding-left: 10px;
     font-size: 1.3rem;
 }
@@ -108,10 +105,6 @@ a::after {
     padding: 10px;
 }
 
-.cards-list {
-    margin-bottom: 7vh;
-}
-
 .card {
     height: 100%;
     display: flex;
@@ -126,7 +119,7 @@ a::after {
 .card-name {
     height: 100%;
     color: black;
-    width: 50%;
+    width: auto;
     font-size: 3.6vw;
     padding-right: 5px;
 }
@@ -179,7 +172,7 @@ a .card-img {
 
 .buttons {
     height: 100%;
-    width: 50%;
+    width: 40%;
     display: flex;
     justify-content: end;
     column-gap: 5px;
@@ -221,7 +214,13 @@ onMounted(async () => {
     try {
         for (let x in fbMenu) {
             for (let y in fbMenu[x]) {
-                fbMenu[x][y].img_url = await getDownloadURL(storageRef(storage, fbMenu[x][y].img_url));
+                if (fbMenu[x][y].img_url != "") {
+                    fbMenu[x][y].img_url = await getDownloadURL(storageRef(storage, fbMenu[x][y].img_url))
+                } else {
+                    fbMenu[x][y].img_url = await getDownloadURL(
+                        storageRef(storage, 'gs://stolovka-app.appspot.com/stolovka-images/not-found.png')
+                        )
+                }  
             }
     } 
     } catch (error) {
