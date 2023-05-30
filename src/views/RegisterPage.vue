@@ -153,16 +153,6 @@ onMounted(() =>{
                 document.getElementById('pass-error').style.display = 'none';
             }
         })
-
-    // document.querySelectorAll('input').forEach(input => {
-    //     input.addEventListener("input", () => {
-    //         if (input.value.length <= 6) {
-    //             input.style.border = '1px solid rgba(255, 0, 0, 0.5)';
-    //         } else {
-    //             input.style.border = '1px solid rgba(0, 0, 0, 0.1)';
-    //         }
-    //     })
-    // })
 })
 
 const register = () => {
