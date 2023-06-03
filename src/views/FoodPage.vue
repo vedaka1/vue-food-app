@@ -9,15 +9,18 @@
         </div>
         <div class="feedback-list">
             Отзывы:
-            <div class="feedback">
+            <RouterLink :to="{name: 'review', params: {id: id, food_id: food_id} }">
+                <button class="btn">Добавить</button>
+            </RouterLink>
+            <div class="feedback" v-for="review in reviews" :key="review.id">
                 <div class="feedback-info">
-                    vedaka1
+                    {{ review.user_login }}
                     <div class="feedback-mark">
-                        9 &starf;
+                        {{ review.rate }} &starf;
                     </div>
                 </div>
                 <p>
-                    Очень вкусный салат, куплю еще раз!
+                    {{ review.review }}
                 </p>
             </div>
         </div>
@@ -83,6 +86,7 @@
     margin-bottom: 5px;
     display: flex;
     justify-content: space-between;
+    font-size: 0.8em;
 }
 .feedback-mark {
     color: rgb(255, 168, 54);
@@ -96,15 +100,35 @@
     margin-top: 10px;
 }
 p {
-    font-size: 0.9em;
+    font-size: 0.8em;
     color: gray;
+    word-wrap: break-word;
+}
+a:active,
+a:hover,
+a::after {
+    text-decoration: none;
+    background-color: none;
+    color: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.btn {
+    outline: 0;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    margin-left: 10px;
+}
+
+.btn:active {
+    background-color: #d1d1d1;
 }
 </style>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, getDocs, query, where, collection } from "firebase/firestore";
 import { getStorage, ref as storageRef , getDownloadURL } from "firebase/storage";
 
 const id = useRouter().currentRoute.value.params.id;
@@ -112,6 +136,8 @@ const food_id = useRouter().currentRoute.value.params.food_id;
 const item = ref([]);
 const db = getFirestore();
 const storage = getStorage();
+const q = query(collection(db, 'reviews'), where('food_id', '==', food_id))
+const reviews = ref([])
 
 onMounted(async () => {  
     const cardIdRef = await getDoc(doc(db, 'buildings', id, 'menu', food_id));
@@ -119,5 +145,11 @@ onMounted(async () => {
     fbCard = cardIdRef.data(); 
     fbCard.img_url = await getDownloadURL(storageRef(storage, fbCard.img_url))
     item.value = fbCard;
+    let fbReview = {};
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        fbReview[doc.id] = {...doc.data()}
+    });
+    reviews.value = fbReview;
 });
 </script>

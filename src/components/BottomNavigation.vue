@@ -2,33 +2,26 @@
     <div class="main">
         <RouterLink to='/'>
             <button class="btn" name="login">
-                <img v-if="a" class="icon" src="../icons/food-icon-black.png" alt="+"> 
-                <img v-else class="icon" src="../icons/food-icon-gray.png" alt="+">
+                <img class="icon" src="../icons/food-icon-black.png" alt="+"> 
                 Меню
             </button>
         </RouterLink>
         <RouterLink to='/LocationPage'>
             <button class="btn" name="login">
-                <img v-if="b" class="icon" src="../icons/gps-black.png" alt="+">
-                <img v-else class="icon" src="../icons/gps-gray.png" alt="+">
+                <img class="icon" src="@/icons/wallet.png" alt="+">
                 Траты
             </button>
         </RouterLink>
         <RouterLink to='/BasketPage'>
             <button class="btn" name="login">
-                <img v-if="c" class="icon" src="../icons/basket-black.png" alt="+">
-                <img v-else class="icon" src="../icons/basket-gray.png" alt="+">
+                <img class="icon" src="../icons/basket-black.png" alt="+">
                 Корзина
             </button>
         </RouterLink>
     </div>
 </template>
 
-<script setup>
-let a, b, c = false
-if (window.location.hash == '/') {a = true} 
-if (window.location.hash == '/LocationPage') {b = true} 
-if (window.location.hash == '/BasketPage') {c = true} 
+<script>
 </script>
 
 <style scoped>
@@ -90,17 +83,4 @@ a::after {
     margin-bottom: 3px;
     user-select: none;
 }
-
-a:nth-child(1):active img {
-    content: url('../icons/food-icon-black.png')
-}
-
-a:nth-child(2):active img {
-    content: url('../icons/gps-black.png');
-}
-
-a:nth-child(3):active img {
-    content: url('../icons/basket-black.png');
-}
-
 </style>

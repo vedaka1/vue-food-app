@@ -56,6 +56,9 @@
     from {opacity: 0;}
     to {opacity: 1;}
 }
+.info {
+    font-size: 0.9em;
+}
 .header {
     text-align: center;
     margin-top: 10px;

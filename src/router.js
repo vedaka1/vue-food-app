@@ -69,6 +69,15 @@ const routes = [
         meta: {
             requiresAuth: true,
           },
+    },
+    {
+        path: '/NewReview/:id/:food_id',
+        name: 'review',
+        component: () => import('../src/views/NewReview.vue'),
+        props: true,
+        meta: {
+            requiresAuth: true,
+          },
     }
 ]
 

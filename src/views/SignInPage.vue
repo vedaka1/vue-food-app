@@ -108,9 +108,7 @@ a::after {
 import { ref } from "vue";
 import {
   getAuth,
-  signInWithEmailAndPassword,
-  // GoogleAuthProvider,
-  // signInWithRedirect,
+  signInWithEmailAndPassword,   
 } from "firebase/auth";
 import { useRouter } from "vue-router";
 const email = ref("");
