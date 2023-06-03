@@ -7,6 +7,20 @@
                 <div>{{ item.price }} ₽</div>
             </div>
         </div>
+        <div class="feedback-list">
+            Отзывы:
+            <div class="feedback">
+                <div class="feedback-info">
+                    vedaka1
+                    <div class="feedback-mark">
+                        9 &starf;
+                    </div>
+                </div>
+                <p>
+                    Очень вкусный салат, куплю еще раз!
+                </p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -14,7 +28,7 @@
 .main-page {
     padding-top: 10px;
     width: 100vw;
-    /* height: 100vh; */
+    height: 100vh;
     display: flex;
     flex-direction: column;
     overflow: scroll;
@@ -25,7 +39,7 @@
     margin-top: 7vh;
     margin-left: 10px;
     margin-right: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     display: flex;
     border-radius: 20px;
     text-align: center;
@@ -50,6 +64,7 @@
     object-position: 50% 50%;
 }
 .item-info {
+    font-size: 0.9em;
     height: 100%;
     flex-grow: 1;
     padding: 10px;
@@ -58,6 +73,31 @@
     flex-direction: column;
     text-align: end;
     justify-content: space-between;
+}
+.feedback-list {
+    text-align: center;
+    padding: 10px;
+}
+.feedback-info {
+    text-align: left;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.feedback-mark {
+    color: rgb(255, 168, 54);
+}
+.feedback {
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+    text-align: left;
+    margin-top: 10px;
+}
+p {
+    font-size: 0.9em;
+    color: gray;
 }
 </style>
 

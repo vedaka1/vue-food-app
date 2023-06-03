@@ -22,17 +22,8 @@
   font-size: 0.9em;
 }
 .nav-header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 50px;
-  width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  color: white;
-  border-radius: 15px;
-  background-color: rgb(0, 0, 0);
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-size: 1.3em;
 }
 
 .main {
@@ -51,7 +42,7 @@ h2 {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 20vh;
+  margin-top: 25vh;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -59,7 +50,7 @@ input {
   padding: 10px;
   border-radius: 15px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  margin-top: 10px;
+  margin-bottom: 10px;
   width: 100%;
   font-size: 1em;
   height: 50px;

@@ -21,8 +21,11 @@
                                 </div>
                             </div>
                             <div class="buttons">
-                                <button class="btn" id="addItem" @click="addItem">&plus;</button>
-                                <button class="btn" id="deleteItem" @click="deleteItem">&minus;</button>
+                                <button v-if="item.count != 0" class="btn" id="deleteItem" @click="deleteItem(item)">
+                                    &minus;
+                                </button>
+                                <div v-if="item.count != 0">{{ item.count }}</div>
+                                <button class="btn" id="addItem" @click="addItem(item)">&plus;</button>
                             </div>
                         </div>
                     </div>
@@ -154,7 +157,6 @@ a .card-img {
 }
 
 .btn {
-    width: 100%;
     max-width: 30px;
     height: 100%;
     display: flex;
@@ -164,6 +166,7 @@ a .card-img {
     /* outline: 0; */
     border: none;
     font-size: 1.3em;
+    flex-grow: 1;
 }
 
 .btn:active {
@@ -172,10 +175,12 @@ a .card-img {
 
 .buttons {
     height: 100%;
-    width: 40%;
+    min-width: 40%;
+    width: fit-content;
     display: flex;
     justify-content: end;
     column-gap: 5px;
+    align-items: center;
 }
 
 </style>
@@ -200,15 +205,14 @@ onMounted(async () => {
     card.value = cardIdRef.data();
     img_main = await getDownloadURL(storageRef(storage, card.value.img_url))
     .catch((error) => {console.log(error.message)});
-    hours = card.value.working_hours
-    
+    hours = card.value.working_hours;
     const querySnapshotMenu = await getDocs(collection(db, `buildings`, id, 'menu'));
     const fbMenu = {};
     querySnapshotMenu.forEach((doc) => {
         if (doc.data().type in fbMenu) {
-            fbMenu[doc.data().type].push({ id: doc.id, ...doc.data() })
+            fbMenu[doc.data().type].push({ id: doc.id, ...doc.data(), count: 0 })
         } else {
-            fbMenu[doc.data().type] = [{ id: doc.id, ...doc.data() }];  
+            fbMenu[doc.data().type] = [{ id: doc.id, ...doc.data(), count: 0 }];  
         }});
              
     try {
@@ -221,6 +225,10 @@ onMounted(async () => {
                         storageRef(storage, 'gs://stolovka-app.appspot.com/stolovka-images/not-found.png')
                         )
                 }  
+                if (fbMenu[x][y].id in localStorage) {
+                    let localItem = JSON.parse(localStorage.getItem(fbMenu[x][y].id));
+                    fbMenu[x][y].count = localItem['count']
+                }
             }
     } 
     } catch (error) {
@@ -228,5 +236,19 @@ onMounted(async () => {
     }
     items.value = fbMenu;
 });
+const addItem = (item) => {
+    item.count++;
+    localStorage.setItem(item.id, JSON.stringify({count: item.count, build: id}));
+};
+
+const deleteItem = (item) => {
+    if (item.count > 0) {
+        item.count--;
+        localStorage.setItem(item.id, JSON.stringify({count: item.count, build: id}));
+    }
+    if (item.count == 0) {
+        localStorage.removeItem(item.id);
+    }
+}
 
 </script>

@@ -11,7 +11,7 @@
             <button class="btn" name="login">
                 <img v-if="b" class="icon" src="../icons/gps-black.png" alt="+">
                 <img v-else class="icon" src="../icons/gps-gray.png" alt="+">
-                Столовые
+                Траты
             </button>
         </RouterLink>
         <RouterLink to='/BasketPage'>
