@@ -9,11 +9,11 @@
                     {{ item.name }} {{ item.price }} ₽ 
                 </div> 
                 <div class="card-buttons">
-                    <button class="btn" id="addItem" @click="addItem(item)">&plus;</button>
-                    {{ item.count }}
                     <button class="btn" id="deleteItem" @click="deleteItem(item)">
                         &minus;
                     </button>
+                    {{ item.count }}
+                    <button class="btn" id="addItem" @click="addItem(item)">&plus;</button>
                 </div> 
             </div>       
         </div>
@@ -29,16 +29,6 @@
 </template>
 
 <style scoped>
-.main-page {
-    padding-top: 10px;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: scroll;
-    padding-top: 7vh;
-    padding-bottom: 7vh;
-}
 .cards {
     padding: 10px;
 }
@@ -66,6 +56,7 @@
 }
 .btn {
     max-width: 30px;
+    margin: 0;
     height: 30px;
     display: flex;
     justify-content: center;

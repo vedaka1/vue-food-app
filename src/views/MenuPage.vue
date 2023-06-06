@@ -5,7 +5,7 @@
             <div class="info hours"> с {{hours[0]}} до {{hours[1]}}</div>
             <div class="info address">{{card.address}}</div>
         </div>
-        <div v-for="title in Object.keys(items)" :key="title">
+        <div class="container" v-for="title in Object.keys(items)" :key="title">
             <p>{{ title }}</p>
             <div class="cards">
                 <div class="card" v-for="item in items[title]" :key="item.id">    
@@ -21,11 +21,11 @@
                                 </div>
                             </div>
                             <div class="buttons">
-                                <button v-if="item.count != 0" class="btn" id="deleteItem" @click="deleteItem(item)">
+                                <button v-if="item.count != 0" class="btn-menu" id="deleteItem" @click="deleteItem(item)">
                                     &minus;
                                 </button>
                                 <div v-if="item.count != 0">{{ item.count }}</div>
-                                <button class="btn" id="addItem" @click="addItem(item)">&plus;</button>
+                                <button class="btn-menu" id="addItem" @click="addItem(item)">&plus;</button>
                             </div>
                         </div>
                     </div>
@@ -36,17 +36,11 @@
 </template>
 
 <style scoped>
-
-.main-page {
-    padding-top: 10px;
-    width: 100vw;
-    /* height: 100vh; */
+.container {
     display: flex;
-    flex-direction: column;
-    overflow: scroll;
-    margin-bottom: 7vh;
+    flex-wrap: wrap;
+    justify-content: center;
 }
-
 .head-text {
     height: 20vh;
     margin-top: 7vh;
@@ -69,8 +63,8 @@
     overflow: hidden;
 }
 p {
-    padding-left: 10px;
     font-size: 1.3rem;
+    text-align: center;
 }
 
 .info {
@@ -99,20 +93,23 @@ a::after {
 }
 
 .cards {
-    height: 30vh;
+    /* height: 30vh; */
     width: 100%;
     padding: 10px 10px 10px 0;
     border-radius: 15px;
-    column-count: 2;
-    column-gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     padding: 10px;
+    justify-content: center;
 }
 
 .card {
-    height: 100%;
+    height: 200px;
+    width: 48%;
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
+    justify-content: center;
     animation: 0.5s show ease;
 }
 @keyframes show {
@@ -123,7 +120,7 @@ a::after {
     height: 100%;
     color: black;
     width: auto;
-    font-size: 3.6vw;
+    font-size: 1em;
     padding-right: 5px;
 }
 .card-items {
@@ -134,7 +131,7 @@ a::after {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
     overflow: hidden;
 }
@@ -156,20 +153,20 @@ a .card-img {
     object-position: 50% 50%;
 }
 
-.btn {
+.btn-menu {
     max-width: 30px;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    /* outline: 0; */
+    outline: 0;
     border: none;
     font-size: 1.3em;
     flex-grow: 1;
 }
 
-.btn:active {
+.btn-menu:active {
     background-color: #d1d1d1;
 }
 

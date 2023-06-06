@@ -53,7 +53,7 @@ const routes = [
           },
     },
     {
-        path: '/MenuPage/:id',
+        path: '/:id',
         name: 'menu',
         component: () => import('../src/views/MenuPage.vue'),
         props: true,
@@ -62,7 +62,7 @@ const routes = [
           },
     },
     {
-        path: '/FoodPage/:id/:food_id',
+        path: '/:id/:food_id',
         name: 'food',
         component: () => import('../src/views/FoodPage.vue'),
         props: true,
@@ -71,7 +71,7 @@ const routes = [
           },
     },
     {
-        path: '/NewReview/:id/:food_id',
+        path: '/:id/:food_id/NewReview',
         name: 'review',
         component: () => import('../src/views/NewReview.vue'),
         props: true,

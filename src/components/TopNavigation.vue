@@ -1,9 +1,9 @@
 <template>
-    <div class="main-nav">
+    <div class="top-bar">
         <h2>Столовка</h2>
         <RouterLink to="/ProfilePage">
             {{ account.login }}
-            <button class="btn">
+            <button class="btn-top-nav">
                 <img class="icon" src="../icons/user.png" alt="+">
             </button>
         </RouterLink>
@@ -11,7 +11,7 @@
 </template>
 
 <style scoped>
-.main-nav {
+.top-bar {
     position: fixed;
     top: 0;
     left: 0;
@@ -40,7 +40,7 @@
     user-select: none;
 }
 
-.btn {
+.btn-top-nav {
     border-radius: 50%;
     background-color: rgb(231, 231, 231);
     border: none;

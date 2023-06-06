@@ -10,7 +10,7 @@
         <div class="feedback-list">
             Отзывы:
             <RouterLink :to="{name: 'review', params: {id: id, food_id: food_id} }">
-                <button class="btn">Добавить</button>
+                <button class="btn-review">Добавить</button>
             </RouterLink>
             <div class="feedback" v-for="review in reviews" :key="review.id">
                 <div class="feedback-info">
@@ -28,14 +28,6 @@
 </template>
 
 <style scoped>
-.main-page {
-    padding-top: 10px;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: scroll;
-}
 
 .head-text {
     height: 20vh;
@@ -112,7 +104,7 @@ a::after {
     color: none;
     -webkit-tap-highlight-color: transparent;
 }
-.btn {
+.btn-review {
     outline: 0;
     border: none;
     border-radius: 20px;
@@ -120,7 +112,7 @@ a::after {
     margin-left: 10px;
 }
 
-.btn:active {
+.btn-review:active {
     background-color: #d1d1d1;
 }
 </style>

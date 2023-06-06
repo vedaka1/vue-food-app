@@ -1,19 +1,19 @@
 <template>
-    <div class="main">
+    <div class="bottom-bar">
         <RouterLink to='/'>
-            <button class="btn" name="login">
+            <button class="btn-nav" name="login">
                 <img class="icon" src="../icons/food-icon-black.png" alt="+"> 
                 Меню
             </button>
         </RouterLink>
         <RouterLink to='/LocationPage'>
-            <button class="btn" name="login">
+            <button class="btn-nav" name="login">
                 <img class="icon" src="@/icons/wallet.png" alt="+">
                 Траты
             </button>
         </RouterLink>
         <RouterLink to='/BasketPage'>
-            <button class="btn" name="login">
+            <button class="btn-nav" name="login">
                 <img class="icon" src="../icons/basket-black.png" alt="+">
                 Корзина
             </button>
@@ -26,7 +26,7 @@
 
 <style scoped>
 
-.main {
+.bottom-bar {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -60,7 +60,7 @@ a::after {
     -webkit-tap-highlight-color: transparent;
 }
 
-.btn {
+.btn-nav {
     flex-grow: 1;
     color: black;
     background-color: rgba(255, 255, 255, 0);

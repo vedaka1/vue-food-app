@@ -18,15 +18,8 @@
 </template>
 
 <style scoped>
-
-.main-page {
-    width: 100vw;
-    height: 86vh;
-    margin-top: 7vh;
-    margin-bottom: 7vh;
-}
 .head-text {
-    margin-top: 10px;
+    /* margin-top: 10px; */
     border-radius: 20px;
     display: flex;
     justify-content: center;
@@ -43,8 +36,10 @@
     overflow: scroll;
     padding: 10px;
     border-radius: 15px;
-    column-count: 2;
+    display: flex;
+    flex-wrap: wrap;
     gap: 10px;
+    justify-content: center;
 }
 
 a {
@@ -55,10 +50,12 @@ a {
 }
 
 .card {
+    display: flex;
     height: 28vh;
-    /* min-width: 40vw; */
+    width: 300px;
     margin-bottom: 10px;
     animation: 0.5s show ease;
+    
 }
 @keyframes show {
     from {opacity: 0;}
@@ -87,7 +84,7 @@ p {
     width: 100%;
     padding: 5px;
     color: black;
-    font-size: 3.5vw;
+    font-size: 1em;
     font-weight: 700;
     border: none;
     padding: 5px;

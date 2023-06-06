@@ -1,6 +1,6 @@
 <template>
     <div class="main-page">
-        <textarea name="review" id="review" v-model="review" cols="30" placeholder="Отзыв" class="text-input" rows="10"></textarea>
+        <textarea name="review" id="review" v-model="review" placeholder="Отзыв" class="text-input"></textarea>
         <div class="rating-area">
             <input type="radio" id="star-1" name="rating" value="5">
             <label for="star-1" title="Оценка «1»"></label>
@@ -21,16 +21,13 @@
 
 <style scoped>
 .main-page {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: scroll;
-    padding-top: 7vh;
+    margin-top: 7vh;
     padding-bottom: 7vh;
+    padding: 10px;
 }
 .text-input {
-    margin: 10px;
+    width: 100%;
+    /* margin: 10px; */
     height: 200px;
     border-radius: 20px;
     padding: 10px;
@@ -40,6 +37,7 @@
     vertical-align: top;
     word-wrap: break-word;
     text-overflow: clip;
+    resize: none;
 }
 
 .buttons {
