@@ -33,8 +33,8 @@
 }
 .cards {
     width: 100%;
+    padding-top: 10px;
     overflow: scroll;
-    padding: 10px;
     border-radius: 15px;
     display: flex;
     flex-wrap: wrap;
@@ -51,7 +51,7 @@ a {
 
 .card {
     display: flex;
-    height: 28vh;
+    height: 200px;
     width: 300px;
     margin-bottom: 10px;
     animation: 0.5s show ease;

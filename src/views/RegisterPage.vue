@@ -32,8 +32,6 @@
 
 .login {
   display: flex;
-  padding-left: 10px;
-  padding-right: 10px;
   flex-direction: column;
   align-items: center;
   width: 100%;

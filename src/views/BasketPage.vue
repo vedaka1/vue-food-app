@@ -1,5 +1,6 @@
 <template>
     <div class="main-page">
+        
         <div class="header">
             Корзина:
         </div>
@@ -22,7 +23,7 @@
             {{ total_price }} ₽
             <div>
                 <button @click="clearBasket">Очистить</button>
-                <button>Заказать</button>
+                <button @click="addSpend">Заказать</button>
             </div>
         </div>
     </div>
@@ -30,9 +31,11 @@
 
 <style scoped>
 .cards {
-    padding: 10px;
+    width: 100%;
 }
 .card {
+    width: 100%;
+    max-width: 1000px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -51,7 +54,7 @@
 }
 .header {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 7vh;
     margin-bottom: 10px;
 }
 .btn {
@@ -66,6 +69,7 @@
     border: none;
     font-size: 1.3em;
     flex-grow: 1;
+    box-shadow: none;
 }
 .btn:active {
     background-color: #d1d1d1;
@@ -73,22 +77,21 @@
 
 .card-buttons {
     height: 100%;
-    min-width: 40%;
-    width: fit-content;
+    width: 100px;
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     column-gap: 5px;
     align-items: center;
 }
 .footer {
-    width: 100%;
+    /* width: 100%; */
     padding: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    top: 85vh;
+    bottom: 7vh;
 }
 .footer button {
     outline: 0;
@@ -96,6 +99,7 @@
     border-radius: 20px;
     padding: 10px;
     margin-left: 10px;
+    margin-bottom: 10px;
 }
 
 .footer button:active {
@@ -106,21 +110,26 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth"
+import { getFirestore, collection, setDoc, doc} from "firebase/firestore"
 
 const items = ref({});
-const db = getFirestore();
 const total_price = ref('');
 let list =  {};
+const db = getFirestore();
+const auth = getAuth();
+const user = auth.currentUser.uid;
+const usersRef = collection(db, "users", user, "spendings")
+
+const date = new Date().getTime().toString()
+const dishesList = []
 
 onMounted(async () => {
     for(let i=0; i<localStorage.length; i++) {
         let key = localStorage.key(i);
-        let localItem = JSON.parse(localStorage.getItem(key));
-        await getDoc(doc(db, 'buildings', localItem['build'], 'menu', key))
-        .then((doc) =>{
-            list[i] = ({id: doc.id, ...doc.data(), count: localItem['count'], build: localItem['build']})
-        })
+        let item = JSON.parse(localStorage.getItem(key));
+        list[i] = item;
+        dishesList[i] = item.name;
     }
     items.value = list;
     totalPrice()
@@ -135,14 +144,14 @@ const totalPrice = () => {
 
 const addItem = (item) => {
     item.count++;
-    localStorage.setItem(item.id, JSON.stringify({count: item.count, build: item.build}));
+    localStorage.setItem(item.id, JSON.stringify(item));
     totalPrice()
 };
 
 const deleteItem = (item) => {
     if (item.count > 0) {
         item.count--;
-        localStorage.setItem(item.id, JSON.stringify({count: item.count, build: item.build}));
+        localStorage.setItem(item.id, JSON.stringify(item));
         totalPrice()
     }
     if (item.count == 0) {
@@ -156,4 +165,26 @@ const clearBasket = () => {
     document.getElementById('cards').style.display = 'none';
     total_price.value = 0;
 };
+const addSpend = async () => {
+    await setDoc(
+        doc(usersRef), 
+        {   amount: total_price.value,
+            date: date,
+            dishes: dishesList,
+        })
+        .then(() =>{
+            document.getElementById('modal').classList.add('visible');
+            let timer = setTimeout(() => {
+                document.getElementById('modal').classList.remove('visible');
+            }, 1000);
+            if (!clearTimeout(timer)) {
+                setTimeout(() => {
+                    document.getElementById('modal').classList.remove('visible');
+                }, 1000);
+            }
+        })
+    localStorage.clear();
+    document.getElementById('cards').style.display = 'none';
+    total_price.value = 0;
+}
 </script>

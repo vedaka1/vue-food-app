@@ -1,12 +1,23 @@
 <template>
   <div class="main">
     <TopBar :login="account.login" v-if="isLoggedIn"/>
+    <div class="modal" id="modal">
+        Успешно!
+    </div>
     <RouterView>
     </RouterView>
     <BottomBar v-if="isLoggedIn"/>
   </div>
 </template>
 
+<style>
+.main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+</style>
 
 <script>
 import BottomBar from "@/components/BottomNavigation.vue";

@@ -13,16 +13,18 @@
 
 body {
     background-color: white;
-    display: flex;
-    justify-content: center;
     font-size: 1em;
     font-family: 'Roboto', sans-serif;
 }
 .main-page {
-    width: 100vw;
+    width: 100%;
     height: 100%;
+    padding: 10px;
     padding-bottom: 7vh;
-    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
  }
 
 .btn {
@@ -42,4 +44,25 @@ body {
   
 .btn:active {
     background-color: rgb(119, 119, 119);
+}
+.modal {
+    border-radius: 20px;
+    padding: 10px;
+    text-align: center;
+    background: rgb(163, 255, 102);
+    position: absolute;
+    left: center;
+    top: 50%;
+    opacity: 0;
+    display: none;
+}
+.visible {
+    opacity: 1;
+    display: block;
+    animation: fade-out 1s forwards;
+}
+@keyframes fade-out {
+    0% {opacity: 1;}
+    50% {opacity: 0.8;}
+    100% {opacity: 0;}
 }

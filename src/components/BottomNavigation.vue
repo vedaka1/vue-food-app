@@ -6,7 +6,7 @@
                 Меню
             </button>
         </RouterLink>
-        <RouterLink to='/LocationPage'>
+        <RouterLink to='/SpendingsPage'>
             <button class="btn-nav" name="login">
                 <img class="icon" src="@/icons/wallet.png" alt="+">
                 Траты
@@ -32,7 +32,7 @@
   left: 0;
   overflow: hidden;
   display: flex;
-  width: 100vw;
+  width: 100%;
   align-items: center;
   color: white;
   font-family: 'Roboto', sans-serif;

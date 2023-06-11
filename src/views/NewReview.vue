@@ -52,9 +52,6 @@
     padding: 10px;
 }
 
-.btn:active {
-    background-color: #d1d1d1;
-}
 label:active,
 label:hover,
 label::after {
@@ -140,7 +137,8 @@ const saveReview = async () => {
             rate = ratings[i].value;
         }
     }
-    await setDoc(
+    if (review.value != 0) {
+        await setDoc(
         doc(reviewRef), 
         {   
             user: auth.currentUser.uid,
@@ -148,8 +146,10 @@ const saveReview = async () => {
             building: id,
             food_id: food_id,
             review: review.value,
-            rate: rate
+            rate: rate,
+            date: new Date().getTime().toString()
         });
     router.go(-1)
+    }
 }
 </script>

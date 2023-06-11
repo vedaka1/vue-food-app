@@ -1,9 +1,11 @@
 <template>
     <div class="main-page">
-        <div class="head-text" v-bind:style="{backgroundImage: 'url('+img_main+')'}">
-            <div class="info name">{{card.name}}</div>
-            <div class="info hours"> с {{hours[0]}} до {{hours[1]}}</div>
-            <div class="info address">{{card.address}}</div>
+        <div class="container">
+            <div class="head-text" v-bind:style="{backgroundImage: 'url('+img_main+')'}">
+                <div class="info name">{{card.name}}</div>
+                <div class="info hours"> с {{hours[0]}} до {{hours[1]}}</div>
+                <div class="info address">{{card.address}}</div>
+            </div>
         </div>
         <div class="container" v-for="title in Object.keys(items)" :key="title">
             <p>{{ title }}</p>
@@ -11,7 +13,7 @@
                 <div class="card" v-for="item in items[title]" :key="item.id">    
                     <div class="card-items">
                         <RouterLink :to="{name: 'food', params: {id: id, food_id: item.id}}">
-                            <img :src="item.img_url" class="card-img">
+                            <img :src="item.img_url" class="card-img" loading="lazy">
                         </RouterLink>
                         <div class="card-info">
                             <div class="card-name">
@@ -37,15 +39,18 @@
 
 <style scoped>
 .container {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 .head-text {
-    height: 20vh;
+    height: 150px;
+    width: 100%;
+    max-width: 950px;
     margin-top: 7vh;
-    margin-left: 10px;
-    margin-right: 10px;
     margin-bottom: 10px;
     padding: 5px;
     gap: 5px;
@@ -93,14 +98,13 @@ a::after {
 }
 
 .cards {
-    /* height: 30vh; */
     width: 100%;
-    padding: 10px 10px 10px 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
     border-radius: 15px;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    padding: 10px;
     justify-content: center;
 }
 
@@ -143,7 +147,7 @@ a::after {
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.9em;
+    font-size: 0.8em;
 
 }
 a .card-img {
@@ -179,7 +183,10 @@ a .card-img {
     column-gap: 5px;
     align-items: center;
 }
-
+.blur-load {
+    width: 100%;
+    height: 100%;
+}
 </style>
 
 <script setup>
@@ -235,7 +242,7 @@ onMounted(async () => {
 });
 const addItem = (item) => {
     item.count++;
-    localStorage.setItem(item.id, JSON.stringify({count: item.count, build: id}));
+    localStorage.setItem(item.id, JSON.stringify(item));
 };
 
 const deleteItem = (item) => {
@@ -247,5 +254,4 @@ const deleteItem = (item) => {
         localStorage.removeItem(item.id);
     }
 }
-
 </script>

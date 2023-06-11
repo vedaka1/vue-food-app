@@ -45,8 +45,8 @@ const routes = [
           },
     },
     {
-        path: '/LocationPage',
-        component: () => import('../src/views/LocationPage.vue'),
+        path: '/SpendingsPage',
+        component: () => import('../src/views/SpendingsPage.vue'),
         props: true,
         meta: {
             requiresAuth: true,
