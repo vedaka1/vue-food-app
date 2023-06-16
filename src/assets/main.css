@@ -73,5 +73,5 @@ body::-webkit-scrollbar {
 }
 :root {
     --bg-color: #ffffff;
-    --navigation-color: rgba(231, 231, 231, 0.5);
+    --navigation-color: rgba(255, 255, 255, 0.5);
 }

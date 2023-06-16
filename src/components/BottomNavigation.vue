@@ -39,10 +39,9 @@
   color: white;
   font-family: 'Roboto', sans-serif;
   height: 50px;
-  background: rgb(240 240 240);
+  background: rgb(255 255 255);
   border-radius: 30px 30px 0 0;
   z-index: 1;
-  border-top: 0.7px solid lightgray;
   justify-content: center;
 }
 

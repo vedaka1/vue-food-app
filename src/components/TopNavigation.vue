@@ -25,7 +25,6 @@
     font-size: 1rem;
     align-items: center;
     padding: 10px;
-    border-bottom: 0.7px solid lightgray;
     background: var(--navigation-color);
     backdrop-filter: blur(15px);
     z-index: 1;
