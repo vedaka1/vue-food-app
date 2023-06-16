@@ -3,8 +3,9 @@
         <div class="profile-page">
             <div class="user-info">
                 <div>login: {{ account.login }}</div>
+                <button class="btn" @click="handleSignOut">Выйти</button>
             </div>
-            Ваши отзывы:
+            <div v-if="user_reviews != 0">Ваши отзывы:</div>
             <div class="feedback" v-for="review in user_reviews" :key="review.id" :id="review.id">
                 <div class="feedback-info">
                     <div class="feedback-info-text">
@@ -28,7 +29,6 @@
                 </div>
                 <button class="delete-btn" @click="delete_review(review.id)">Удалить</button>
             </div>
-            <button class="btn" @click="handleSignOut">Выйти</button>
         </div>
     </div>
 </template>
@@ -44,7 +44,9 @@
     width: 100%;
     display: flex;
     color: gray;
-    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 800px;
 }
 .feedback-info {
     text-align: left;
@@ -106,6 +108,10 @@ p {
 }
 .delete-btn:hover {
     background-color: #e4e4e4;
+}
+.btn {
+    width: 100px;
+    margin: 0;
 }
 </style>
 
