@@ -58,7 +58,7 @@
 }
 .header {
     text-align: center;
-    margin-top: 7vh;
+    margin-top: 50px;
     margin-bottom: 10px;
 }
 .btn {
@@ -95,7 +95,7 @@
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    bottom: 7vh;
+    bottom: 50px;
 }
 .footer button {
     outline: 0;
@@ -202,7 +202,7 @@ const addSpend = async () => {
                 raise_modal('Успешно!', 'lightgreen')
             })
     } else {
-        raise_modal('Корзина пуста!', 'red')
+        raise_modal('Корзина пуста!', '#ff6363')
     }
     localStorage.clear();
     document.getElementById('cards').style.display = 'none';

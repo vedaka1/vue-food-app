@@ -27,7 +27,7 @@
 
 <style>
 header {
-    margin-top: 7vh;
+    margin-top: 50px;
     margin-bottom: 10px;
 }
 .spendings-list {

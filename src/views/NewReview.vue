@@ -21,8 +21,8 @@
 
 <style scoped>
 .main-page {
-    margin-top: 7vh;
-    padding-bottom: 7vh;
+    margin-top: 50px;
+    padding-bottom: 50px;
     padding: 10px;
 }
 .text-input {

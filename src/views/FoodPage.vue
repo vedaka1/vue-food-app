@@ -49,7 +49,7 @@
     width: 100%;
     max-width: 800px;
     height: 20vh;
-    margin-top: 7vh;
+    margin-top: 50px;
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
@@ -159,7 +159,11 @@ onMounted(async () => {
     const cardIdRef = await getDoc(doc(db, 'buildings', id, 'menu', food_id));
     let fbCard = [];
     fbCard = cardIdRef.data(); 
-    fbCard.img_url = await getDownloadURL(storageRef(storage, fbCard.img_url))
+    if (fbCard.img_url != '') {
+        fbCard.img_url = await getDownloadURL(storageRef(storage, fbCard.img_url))
+    } else {
+        fbCard.img_url = await getDownloadURL(storageRef(storage,'stolovka-images/not-found.png'))
+    }
     item.value = fbCard;
     let fbReview = [];
     let counter = 0;

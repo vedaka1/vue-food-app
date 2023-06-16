@@ -127,5 +127,4 @@ input:focus {
 .btns button:active {
   background-color: rgb(119, 119, 119);
 }
-
 </style>

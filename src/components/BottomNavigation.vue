@@ -1,23 +1,25 @@
 <template>
     <div class="bottom-bar">
-        <RouterLink to='/'>
+        <div class="icons">
+            <RouterLink to='/'>
             <button class="btn-nav" name="login">
                 <img class="icon" src="../icons/food-icon-black.png" alt="+"> 
                 Меню
             </button>
-        </RouterLink>
-        <RouterLink to='/SpendingsPage'>
-            <button class="btn-nav" name="login">
-                <img class="icon" src="@/icons/wallet.png" alt="+">
-                Траты
-            </button>
-        </RouterLink>
-        <RouterLink to='/BasketPage'>
-            <button class="btn-nav" name="login">
-                <img class="icon" src="../icons/basket-black.png" alt="+">
-                Корзина
-            </button>
-        </RouterLink>
+            </RouterLink>
+            <RouterLink to='/SpendingsPage'>
+                <button class="btn-nav" name="login">
+                    <img class="icon" src="@/icons/wallet.png" alt="+">
+                    Траты
+                </button>
+            </RouterLink>
+            <RouterLink to='/BasketPage'>
+                <button class="btn-nav" name="login">
+                    <img class="icon" src="../icons/basket-black.png" alt="+">
+                    Корзина
+                </button>
+            </RouterLink>
+        </div>
     </div>
 </template>
 
@@ -36,22 +38,28 @@
   align-items: center;
   color: white;
   font-family: 'Roboto', sans-serif;
-  height: 7vh;
-  background-color: rgb(255, 255, 255, 1);
+  height: 50px;
+  background: rgb(240 240 240);
   border-radius: 30px 30px 0 0;
   z-index: 1;
   border-top: 0.7px solid lightgray;
+  justify-content: center;
 }
 
 a {
     text-decoration: none;
     outline: 0;
-    flex-grow: 1;
+    flex-grow: 1;   
     display: flex;
     background-color: none;
     flex-basis: 33%;
 }
-
+.icons {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+}
 a:active,
 a:hover,
 a::after {

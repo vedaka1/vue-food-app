@@ -4,7 +4,7 @@
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
     /* font-family: 'Roboto', sans-serif; */
-    font-weight: 700
+    font-weight: 700;
   }
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
@@ -15,12 +15,16 @@ body {
     background-color: var(--bg-color);
     font-size: 1em;
     font-family: 'Roboto', sans-serif;
+    overflow-y: scroll;
+}
+body::-webkit-scrollbar {
+    width: 0;
 }
 .main-page {
     width: 100%;
     height: 100%;
     padding: 10px;
-    padding-bottom: 7vh;
+    padding-bottom: 50px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -69,5 +73,5 @@ body {
 }
 :root {
     --bg-color: #ffffff;
-    --navigation-color: rgba(255, 255, 255, 0.5);
+    --navigation-color: rgba(231, 231, 231, 0.5);
 }

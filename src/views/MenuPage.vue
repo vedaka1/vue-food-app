@@ -45,12 +45,13 @@
     justify-content: center;
     max-width: 800px;
     margin: 0 auto;
+    scrollbar-width: none;
 }
 .head-text {
     height: 150px;
     width: 100%;
     max-width: 800px;
-    margin-top: 7vh;
+    margin-top: 50px;
     margin-bottom: 10px;
     padding: 5px;
     gap: 5px;
@@ -180,7 +181,7 @@ a .card-img {
     min-width: 40%;
     width: fit-content;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     column-gap: 5px;
     align-items: center;
 }
@@ -214,12 +215,20 @@ onMounted(async () => {
     const querySnapshotMenu = await getDocs(collection(db, `buildings`, id, 'menu'));
     const fbMenu = {};
     querySnapshotMenu.forEach((doc) => {
-        if (doc.data().type in fbMenu) {
-            fbMenu[doc.data().type].push({ id: doc.id, ...doc.data(), count: 0 })
+        let item_count = 0;
+        if (doc.id in localStorage) {
+            let localItem = JSON.parse(localStorage.getItem(doc.id));
+            item_count = localItem['count']
         } else {
-            fbMenu[doc.data().type] = [{ id: doc.id, ...doc.data(), count: 0 }];  
-        }});
-             
+            item_count = 0;
+        }
+        if (doc.data().type in fbMenu) {
+            fbMenu[doc.data().type].push({ id: doc.id, ...doc.data(), count: item_count });
+        } else {
+            fbMenu[doc.data().type] = [{ id: doc.id, ...doc.data(), count: item_count }]; 
+        }
+        });
+                 
     try {
         for (let x in fbMenu) {
             for (let y in fbMenu[x]) {
@@ -230,10 +239,6 @@ onMounted(async () => {
                         storageRef(storage, 'gs://stolovka-app.appspot.com/stolovka-images/not-found.png')
                         )
                 }  
-                if (fbMenu[x][y].id in localStorage) {
-                    let localItem = JSON.parse(localStorage.getItem(fbMenu[x][y].id));
-                    fbMenu[x][y].count = localItem['count']
-                }
             }
     } 
     } catch (error) {

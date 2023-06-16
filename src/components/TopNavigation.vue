@@ -15,7 +15,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    height: 7vh;
+    height: 50px;
     overflow: hidden;
     display: flex;
     flex-direction: row;
@@ -37,7 +37,6 @@
     background-size: contain;
     background-repeat: no-repeat;
     align-self: center;
-    margin-bottom: 5px;
     user-select: none;
 }
 

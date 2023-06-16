@@ -29,12 +29,11 @@
     text-align: center;
     font-size: 1.3rem;
     font-weight: 100;
-    margin-top: 7vh;
+    margin-top: 50px;
 }
 .cards {
     width: 100%;
     padding-top: 10px;
-    overflow-y: scroll;
     border-radius: 15px;
     display: flex;
     flex-wrap: wrap;
