@@ -27,6 +27,7 @@
 }
 .text-input {
     width: 100%;
+    max-width: 800px;
     /* margin: 10px; */
     height: 200px;
     border-radius: 20px;

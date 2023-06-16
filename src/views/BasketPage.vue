@@ -32,6 +32,10 @@
 <style scoped>
 .cards {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 800px;
 }
 .card {
     width: 100%;
@@ -119,17 +123,17 @@ let list =  {};
 const db = getFirestore();
 const auth = getAuth();
 const user = auth.currentUser.uid;
-const usersRef = collection(db, "users", user, "spendings")
+const usersRef = collection(db, "users", user, "spendings");
 
-const date = new Date().getTime().toString()
-const dishesList = []
+const date = new Date().getTime().toString();
+const dishesList = {};
 
 onMounted(async () => {
     for(let i=0; i<localStorage.length; i++) {
         let key = localStorage.key(i);
         let item = JSON.parse(localStorage.getItem(key));
         list[i] = item;
-        dishesList[i] = item.name;
+        dishesList[i] = {name: item.name, count: item.count, price: item.price };
     }
     items.value = list;
     totalPrice()
@@ -165,24 +169,41 @@ const clearBasket = () => {
     document.getElementById('cards').style.display = 'none';
     total_price.value = 0;
 };
+
+const raise_modal = (text, color) => {
+    let modal = document.getElementById('modal');
+    modal.style.backgroundColor = color;
+    modal.classList.add('visible');
+    modal.innerText = text;
+    let timer = setTimeout(() => {
+        document.getElementById('modal').classList.remove('visible');
+    }, 1000);
+    if (!clearTimeout(timer)) {
+        setTimeout(() => {
+            document.getElementById('modal').classList.remove('visible');
+        }, 1000);
+    }
+}
+
 const addSpend = async () => {
-    await setDoc(
-        doc(usersRef), 
-        {   amount: total_price.value,
-            date: date,
-            dishes: dishesList,
-        })
-        .then(() =>{
-            document.getElementById('modal').classList.add('visible');
-            let timer = setTimeout(() => {
-                document.getElementById('modal').classList.remove('visible');
-            }, 1000);
-            if (!clearTimeout(timer)) {
-                setTimeout(() => {
-                    document.getElementById('modal').classList.remove('visible');
-                }, 1000);
-            }
-        })
+    if (localStorage.length > 0) {
+        for (let i=0; i<localStorage.length; i++) {
+            let key = localStorage.key(i);
+            let item = JSON.parse(localStorage.getItem(key));
+            dishesList[i] = {name: item.name, count: item.count, price: item.price };
+        }
+        await setDoc(
+            doc(usersRef), 
+            {   amount: total_price.value,
+                date: date,
+                dishes: dishesList,
+            })
+            .then(() =>{
+                raise_modal('Успешно!', 'lightgreen')
+            })
+    } else {
+        raise_modal('Корзина пуста!', 'red')
+    }
     localStorage.clear();
     document.getElementById('cards').style.display = 'none';
     total_price.value = 0;

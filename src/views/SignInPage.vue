@@ -35,6 +35,7 @@ p {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: 500px;
   margin-top: 25vh;
   font-family: 'Roboto', sans-serif;
 }

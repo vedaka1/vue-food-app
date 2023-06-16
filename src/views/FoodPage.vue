@@ -47,6 +47,7 @@
 <style scoped>
 .head-text {
     width: 100%;
+    max-width: 800px;
     height: 20vh;
     margin-top: 7vh;
     margin-left: 10px;
@@ -89,6 +90,7 @@
 .feedback-list {
     text-align: center;
     width: 100%;
+    max-width: 800px;
 }
 .feedback-info {
     text-align: left;
@@ -179,6 +181,12 @@ onMounted(async () => {
     reviews.value.forEach((review) => {
         review.date = new Date(review.date * 1)
     });
-    rating = counter / fbReview.length
+    let rounded = counter / fbReview.length;
+    if (!isNaN(rounded)) {
+        rating = rounded.toFixed(1);
+    } else {
+        rating = 0;
+    }
+
 });
 </script>

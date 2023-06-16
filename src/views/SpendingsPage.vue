@@ -18,7 +18,7 @@
                     <p>{{ spending.amount }} ₽</p>
                 </div>
                 <div class="dish-list" v-for="dish in spending.dishes" :key="dish">
-                    {{ dish }}
+                    <span class="dish-info">{{ dish.name }}</span> <p>{{ dish.count }} &#215; {{ dish.price }} ₽</p>
                 </div>
             </div>
         </div>
@@ -32,6 +32,7 @@ header {
 }
 .spendings-list {
     width: 100%;
+    max-width: 800px;
 }
 .spending-item {
     padding: 10px;
@@ -55,6 +56,14 @@ header {
 }
 .dish-list {
     font-size: 0.9em;
+    display: flex;
+}
+.dish-info {
+    width: 100px;
+    text-align: left;
+}
+.dish-list p {
+    color: gray;
 }
 </style>
 

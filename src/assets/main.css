@@ -12,7 +12,7 @@
 
 
 body {
-    background-color: white;
+    background-color: var(--bg-color);
     font-size: 1em;
     font-family: 'Roboto', sans-serif;
 }
@@ -51,6 +51,7 @@ body {
     text-align: center;
     background: rgb(163, 255, 102);
     position: absolute;
+    color: #ffffff;
     left: center;
     top: 50%;
     opacity: 0;
@@ -65,4 +66,8 @@ body {
     0% {opacity: 1;}
     50% {opacity: 0.8;}
     100% {opacity: 0;}
+}
+:root {
+    --bg-color: #ffffff;
+    --navigation-color: rgba(255, 255, 255, 0.5);
 }

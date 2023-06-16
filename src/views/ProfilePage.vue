@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main-page">
         <div class="profile-page">
             <div class="user-info">
                 <div>login: {{ account.login }}</div>
@@ -11,8 +11,8 @@
 
 <style scoped>
 .profile-page {
-    padding: 10px;
-    width: 100vw;
+    width: 100%;
+    max-width: 800px;
 }
 .user-info {
     margin-top: 7vh;

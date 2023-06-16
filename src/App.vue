@@ -2,7 +2,7 @@
   <div class="main">
     <TopBar :login="account.login" v-if="isLoggedIn"/>
     <div class="modal" id="modal">
-        Успешно!
+        
     </div>
     <RouterView>
     </RouterView>

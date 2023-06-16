@@ -34,7 +34,7 @@
 .cards {
     width: 100%;
     padding-top: 10px;
-    overflow: scroll;
+    overflow-y: scroll;
     border-radius: 15px;
     display: flex;
     flex-wrap: wrap;

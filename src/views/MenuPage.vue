@@ -43,13 +43,13 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    max-width: 1000px;
+    max-width: 800px;
     margin: 0 auto;
 }
 .head-text {
     height: 150px;
     width: 100%;
-    max-width: 950px;
+    max-width: 800px;
     margin-top: 7vh;
     margin-bottom: 10px;
     padding: 5px;
@@ -111,6 +111,7 @@ a::after {
 .card {
     height: 200px;
     width: 48%;
+    max-width: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
