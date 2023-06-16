@@ -1,4 +1,8 @@
 # vue-food-app
+# Required
+```
+Node.js https://nodejs.org/en
+```
 
 ## Project setup
 ```
