@@ -71,7 +71,7 @@ const routes = [
           },
     },
     {
-        path: '/:id/:food_id',
+        path: '/:id/:food_id/NewReview',
         name: 'review',
         component: () => import('../src/views/NewReview.vue'),
         props: true,
