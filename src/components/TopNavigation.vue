@@ -2,7 +2,7 @@
     <div class="top-bar">
         <h2>Столовка</h2>
         <RouterLink to="/ProfilePage">
-            {{ account.login }}
+            <p>{{ account.login }}</p>
             <button class="btn-top-nav">
                 <img class="icon" src="../icons/user.png" alt="+">
             </button>
@@ -21,7 +21,6 @@
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    color: black;
     font-size: 1rem;
     align-items: center;
     padding: 10px;
@@ -61,6 +60,12 @@ a::after {
     background-color: none;
     color: none;
     -webkit-tap-highlight-color: transparent;
+}
+h2 {
+    color: var(--text-color);
+}
+p {
+    color: var(--text-second-color);
 }
 </style>
 

@@ -39,6 +39,8 @@
     word-wrap: break-word;
     text-overflow: clip;
     resize: none;
+    color: var(--text-color);
+    background-color: var(--items-color);
 }
 
 .buttons {
@@ -112,7 +114,7 @@ label::after {
 <script setup>
 import { ref, onMounted } from "vue"
 import { getAuth } from "firebase/auth"
-import { getFirestore, collection, setDoc, getDoc, doc} from "firebase/firestore"
+import { getFirestore, collection, setDoc, getDoc, doc, where, getDocs, query} from "firebase/firestore"
 import { useRouter } from "vue-router";
 
 const db = getFirestore();
@@ -123,6 +125,7 @@ const reviewRef = collection(db, "reviews")
 const id = useRouter().currentRoute.value.params.id;
 const food_id = useRouter().currentRoute.value.params.food_id;
 const user = getAuth().currentUser.uid;
+const q = query(collection(db, 'reviews'), where('food_id', '==', food_id))
 let login = '';
 let rate = '';
 
@@ -150,6 +153,19 @@ const saveReview = async () => {
             rate: rate,
             date: new Date().getTime().toString()
         });
+        let fbReview = [];
+        let counter = 0;
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            fbReview.push({id: doc.id});
+            counter += parseInt(doc.data().rate);
+        });
+        let total_rate = (counter / fbReview.length).toFixed(1);
+    await setDoc(
+        doc(db, 'buildings', id, 'menu', food_id),
+        {rate: total_rate},
+        {merge: true}
+    )
     router.go(-1)
     }
 }

@@ -38,6 +38,7 @@
     max-width: 800px;
 }
 .card {
+    background-color: var(--items-color);
     width: 100%;
     max-width: 1000px;
     display: flex;
@@ -69,7 +70,6 @@
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    /* outline: 0; */
     border: none;
     font-size: 1.3em;
     flex-grow: 1;
@@ -104,6 +104,8 @@
     padding: 10px;
     margin-left: 10px;
     margin-bottom: 10px;
+    background-color: var(--btn-second-color);
+    color: var(--text-color);
 }
 
 .footer button:active {

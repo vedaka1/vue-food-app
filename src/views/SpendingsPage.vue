@@ -35,6 +35,7 @@ header {
     max-width: 800px;
 }
 .spending-item {
+    background-color: var(--items-color);
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 20px;
@@ -63,7 +64,7 @@ header {
     text-align: left;
 }
 .dish-list p {
-    color: gray;
+    color: var(--text-second-color);
 }
 </style>
 

@@ -3,18 +3,15 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
-    /* font-family: 'Roboto', sans-serif; */
     font-weight: 700;
   }
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
-/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap'); */
-
 
 body {
     background-color: var(--bg-color);
     font-size: 1em;
-    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
     overflow-y: scroll;
 }
 body::-webkit-scrollbar {
@@ -39,7 +36,7 @@ body::-webkit-scrollbar {
     margin: 10px 0 0 0;
     color: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
-    background-color: rgb(0, 0, 0);
+    background-color: var(--btn-color);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
 }
 .btn:hover {
@@ -66,6 +63,16 @@ body::-webkit-scrollbar {
     display: block;
     animation: fade-out 1s forwards;
 }
+
+#menu-icon {
+    background-image: var(--btn-menu);
+}
+#spendings-icon {
+    background-image: var(--btn-spendings);
+}
+#basket-icon {
+    background-image: var(--btn-basket);
+}
 @keyframes fade-out {
     0% {opacity: 1;}
     50% {opacity: 0.8;}
@@ -73,5 +80,27 @@ body::-webkit-scrollbar {
 }
 :root {
     --bg-color: #ffffff;
+    --text-color: #000000;
+    --text-second-color: #7e7e7e;
     --navigation-color: rgba(255, 255, 255, 0.5);
+    --navigation-bottom-color: #ffffff;
+    --btn-color: #000000;
+    --btn-second-color: #e6e6e6;
+    --items-color: #FFFFFF;
+    --btn-menu: url('../icons/food-icon.png');
+    --btn-spendings: url('../icons/wallet.png');
+    --btn-basket: url('../icons/basket.png');
+}
+.dark-theme {
+    --navigation-color: rgba(0, 0, 0, 0.5);
+    --navigation-bottom-color: rgb(0, 0, 0);
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --text-second-color: #b3b3b3;
+    --btn-color: #292929;
+    --btn-second-color: #383838;
+    --items-color: #313131;
+    --btn-menu: url('../icons/food-icon-white.png');
+    --btn-spendings: url('../icons/wallet-white.png');
+    --btn-basket: url('../icons/basket-white.png');
 }

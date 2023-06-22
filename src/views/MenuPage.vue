@@ -17,17 +17,19 @@
                         </RouterLink>
                         <div class="card-info">
                             <div class="card-name">
-                                <div>
-                                    {{ item.name }}<br>
-                                    {{ item.price }} ₽
-                                </div>
+                                <span>{{ item.name }}</span> <span class="food-rate">{{ item.rate }} &starf;</span>
                             </div>
-                            <div class="buttons">
-                                <button v-if="item.count != 0" class="btn-menu" id="deleteItem" @click="deleteItem(item)">
-                                    &minus;
-                                </button>
-                                <div v-if="item.count != 0">{{ item.count }}</div>
-                                <button class="btn-menu" id="addItem" @click="addItem(item)">&plus;</button>
+                            <div class="card-price">
+                                <div>
+                                {{ item.price }} ₽
+                                </div>
+                                <div class="buttons">
+                                    <button v-if="item.count != 0" class="btn-menu" id="deleteItem" @click="deleteItem(item)">
+                                        &minus;
+                                    </button>
+                                    <div v-if="item.count != 0">{{ item.count }}</div>
+                                    <button class="btn-menu" id="addItem" @click="addItem(item)">&plus;</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -75,7 +77,7 @@ p {
 
 .info {
     border-radius: 15px;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: var(--navigation-color);
     backdrop-filter: blur(10px);
     padding: 5px;
     font-size: 0.6em;
@@ -110,7 +112,7 @@ a::after {
 }
 
 .card {
-    height: 200px;
+    height: 230px;
     width: 48%;
     max-width: 200px;
     display: flex;
@@ -123,15 +125,20 @@ a::after {
     to {opacity: 1;}
 }
 .card-name {
-    height: 100%;
-    color: black;
-    width: auto;
+    width: 100%;
     font-size: 1em;
-    padding-right: 5px;
+}
+.card-price {
+    align-items: center;
+    font-size: 1.1em;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 .card-items {
     height: 100%;
-    background-color: white;
+    background-color: var(--items-color);
     border: none;
     border-radius: 15px;
     display: flex;
@@ -142,15 +149,14 @@ a::after {
     overflow: hidden;
 }
 .card-info {
-    flex-basis: 20%;
+    flex-basis: 25%;
     padding: 5px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
     justify-content: space-between;
     align-items: center;
     font-size: 0.8em;
-
 }
 a .card-img {
     width: 100%;
@@ -158,7 +164,9 @@ a .card-img {
     object-fit: cover;
     object-position: 50% 50%;
 }
-
+.food-rate {
+    color: rgb(255, 168, 54);
+}
 .btn-menu {
     max-width: 30px;
     height: 100%;
@@ -170,6 +178,8 @@ a .card-img {
     border: none;
     font-size: 1.3em;
     flex-grow: 1;
+    color: var(--text-color);
+    background-color: var(--btn-second-color);
 }
 
 .btn-menu:active {
@@ -178,7 +188,7 @@ a .card-img {
 
 .buttons {
     height: 100%;
-    min-width: 40%;
+    min-width: 70%;
     width: fit-content;
     display: flex;
     justify-content: flex-end;

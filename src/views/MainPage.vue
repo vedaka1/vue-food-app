@@ -64,7 +64,7 @@ a {
 a .card-item {
     width: 100%;
     height: 100%;
-    background-color: white;
+    background-color: var(--items-color);
     border: none;
     border-radius: 15px;
     background-repeat: no-repeat;
@@ -82,7 +82,7 @@ p {
     border-radius: 15px;
     width: 100%;
     padding: 5px;
-    color: black;
+    color: var(--text-color);
     font-size: 1em;
     font-weight: 700;
     border: none;

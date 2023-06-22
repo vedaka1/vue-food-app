@@ -2,20 +2,20 @@
     <div class="bottom-bar">
         <div class="icons">
             <RouterLink to='/'>
-            <button class="btn-nav" name="login">
-                <img class="icon" src="../icons/food-icon-black.png" alt="+"> 
-                Меню
-            </button>
+                <button class="btn-nav" name="login">
+                    <div class="icon" id="menu-icon"></div>
+                    Меню
+                </button>
             </RouterLink>
             <RouterLink to='/SpendingsPage'>
                 <button class="btn-nav" name="login">
-                    <img class="icon" src="@/icons/wallet.png" alt="+">
+                    <div class="icon" id="spendings-icon"></div>
                     Траты
                 </button>
             </RouterLink>
             <RouterLink to='/BasketPage'>
                 <button class="btn-nav" name="login">
-                    <img class="icon" src="../icons/basket-black.png" alt="+">
+                    <div class="icon" id="basket-icon"></div>
                     Корзина
                 </button>
             </RouterLink>
@@ -23,7 +23,7 @@
     </div>
 </template>
 
-<script>
+<script setup>
 </script>
 
 <style scoped>
@@ -36,10 +36,8 @@
   display: flex;
   width: 100%;
   align-items: center;
-  color: white;
-  font-family: 'Roboto', sans-serif;
   height: 50px;
-  background: rgb(255 255 255);
+  background: var(--navigation-bottom-color);
   border-radius: 30px 30px 0 0;
   z-index: 1;
   justify-content: center;
@@ -70,7 +68,7 @@ a::after {
 
 .btn-nav {
     flex-grow: 1;
-    color: black;
+    color: var(--text-color);
     background-color: rgba(255, 255, 255, 0);
     border: none;
     outline: 0;

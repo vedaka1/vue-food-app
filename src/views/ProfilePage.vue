@@ -4,6 +4,7 @@
             <div class="user-info">
                 <div>login: {{ account.login }}</div>
                 <button class="btn" @click="handleSignOut">Выйти</button>
+                <button class="btn" @click="changeTheme">Сменить тему</button>
             </div>
             <div v-if="user_reviews != 0">Ваши отзывы:</div>
             <div class="feedback" v-for="review in user_reviews" :key="review.id" :id="review.id">
@@ -27,7 +28,7 @@
                         {{ review.review }}
                     </p>
                 </div>
-                <button class="delete-btn" @click="delete_review(review.id)">Удалить</button>
+                <button class="delete-btn" @click="delete_review(review.id, review.building, review.food_id)">Удалить</button>
             </div>
         </div>
     </div>
@@ -58,7 +59,7 @@
 }
 .feedback-info span {
     font-size: 0.8em;
-    color: gray;
+    color: var(--text-second-color);
     width: 100%;
 }
 .feedback-info-text {
@@ -82,22 +83,23 @@
     margin-top: 10px;
     display: flex;
     height: fit-content;
+    background-color: var(--items-color);
 }
 p {
     font-size: 1em;
-    color: gray;
+    color: var(--text-second-color);
     word-wrap: break-word;
 }
 .delete-btn {
     max-width: fit-content;
     padding: 0 10px;
     margin: 0;
-    /* height: 40px; */
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    /* outline: 0; */
+    color: var(--text-color);
+    background-color: var(--btn-second-color);
     border: none;
     font-size: 0.6em;
     flex-grow: 1;
@@ -117,7 +119,7 @@ p {
 
 <script setup>
 import { getAuth, signOut } from "firebase/auth";
-import { getDocs, getDoc, doc, getFirestore, query, where, collection, deleteDoc } from "firebase/firestore";
+import { getDocs, getDoc, doc, getFirestore, query, where, collection, deleteDoc, setDoc} from "firebase/firestore";
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 
@@ -126,13 +128,14 @@ const account = ref([])
 const user_reviews = ref([]);
 const user = getAuth().currentUser.uid;
 const router = useRouter();
-const q = query(collection(db, 'reviews'), where('user', '==', user))
+const user_q = query(collection(db, 'reviews'), where('user', '==', user))
 let auth = getAuth();
+let total_rate = 0;
 
 onMounted(async () => {
     const userRef = await getDoc(doc(db, 'users', user));
     let fbReview = [];
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(user_q);
     querySnapshot.forEach((doc) => {
         fbReview.push({id: doc.id, ...doc.data() });
     });
@@ -158,9 +161,30 @@ const handleSignOut = () => {
   });
 };
 
-const delete_review = async (id) => {
-    await deleteDoc(doc(db, 'reviews', id));
-    document.getElementById(id).style.display = 'none';
+const delete_review = async (review_id, building_id, food_id) => {
+    await deleteDoc(doc(db, 'reviews', review_id));
+    let reviews_counter = 0;
+    let counter = 0;
+    const querySnapshot = await getDocs(query(collection(db, 'reviews'), where('food_id', '==', food_id)));
+    querySnapshot.forEach((doc) => {
+        reviews_counter += 1;
+        counter += parseInt(doc.data().rate);
+        console.log(doc)
+    });
+    if (reviews_counter != 0) {
+        total_rate = (counter / reviews_counter).toFixed(1);
+    }
+
+    await setDoc(
+        doc(db, 'buildings', building_id, 'menu', food_id),
+        {rate: total_rate},
+        {merge: true}
+    )
+    document.getElementById(review_id).style.display = 'none';
+}
+
+const changeTheme = () => {
+    document.body.classList.toggle('dark-theme');
 }
 </script>
 
