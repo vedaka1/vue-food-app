@@ -27,7 +27,7 @@
                                     <button v-if="item.count != 0" class="btn-menu" id="deleteItem" @click="deleteItem(item)">
                                         &minus;
                                     </button>
-                                    <div v-if="item.count != 0">{{ item.count }}</div>
+                                    <div v-if="item.count != 0" class="item-counter">{{ item.count }}</div>
                                     <button class="btn-menu" id="addItem" @click="addItem(item)">&plus;</button>
                                 </div>
                             </div>
@@ -166,6 +166,10 @@ a .card-img {
 }
 .food-rate {
     color: rgb(255, 168, 54);
+}
+.item-counter {
+    width: 20px;
+    text-align: center;
 }
 .btn-menu {
     max-width: 30px;

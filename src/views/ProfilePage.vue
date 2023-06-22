@@ -2,7 +2,7 @@
     <div class="main-page">
         <div class="profile-page">
             <div class="user-info">
-                <div>login: {{ account.login }}</div>
+                <div class="login">login: {{ account.login }}</div>
                 <button class="btn" @click="handleSignOut">Выйти</button>
                 <button class="btn" @click="changeTheme">Сменить тему</button>
             </div>
@@ -19,6 +19,7 @@
                             hour: "numeric",
                             minute: "numeric",
                         }) }}
+                        {{ review.food_name }}
                         </span>
                         <div class="feedback-mark">
                             {{ review.rate }} &starf;
@@ -44,10 +45,14 @@
     padding: 10px 0;
     width: 100%;
     display: flex;
-    color: gray;
+    color: var(--text-color);
     align-items: center;
     justify-content: space-between;
     max-width: 800px;
+    gap: 10px;
+}
+.login {
+    flex-grow: 1;
 }
 .feedback-info {
     text-align: left;
@@ -169,7 +174,6 @@ const delete_review = async (review_id, building_id, food_id) => {
     querySnapshot.forEach((doc) => {
         reviews_counter += 1;
         counter += parseInt(doc.data().rate);
-        console.log(doc)
     });
     if (reviews_counter != 0) {
         total_rate = (counter / reviews_counter).toFixed(1);

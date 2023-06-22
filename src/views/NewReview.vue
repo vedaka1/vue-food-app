@@ -114,7 +114,7 @@ label::after {
 <script setup>
 import { ref, onMounted } from "vue"
 import { getAuth } from "firebase/auth"
-import { getFirestore, collection, setDoc, getDoc, doc, where, getDocs, query} from "firebase/firestore"
+import { getFirestore, collection, setDoc, getDoc, doc, where, query, getCountFromServer } from "firebase/firestore"
 import { useRouter } from "vue-router";
 
 const db = getFirestore();
@@ -126,11 +126,13 @@ const id = useRouter().currentRoute.value.params.id;
 const food_id = useRouter().currentRoute.value.params.food_id;
 const user = getAuth().currentUser.uid;
 const q = query(collection(db, 'reviews'), where('food_id', '==', food_id))
+let food_rate = '';
 let login = '';
 let rate = '';
 
 onMounted(async () => {
     const userRef = await getDoc(doc(db, 'users', user));
+    food_rate = await getDoc(doc(db, 'buildings', id, 'menu', food_id))
     login = userRef.data().login;
 })
 
@@ -148,19 +150,17 @@ const saveReview = async () => {
             user: auth.currentUser.uid,
             user_login: login,
             building: id,
+            food_name: food_rate.data().name,
             food_id: food_id,
             review: review.value,
             rate: rate,
             date: new Date().getTime().toString()
         });
-        let fbReview = [];
-        let counter = 0;
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            fbReview.push({id: doc.id});
-            counter += parseInt(doc.data().rate);
-        });
-        let total_rate = (counter / fbReview.length).toFixed(1);
+        let total_reviews = await getCountFromServer(q)
+        let total_rate = (
+            ((total_reviews.data().count -= 1) * parseFloat(food_rate.data().rate) + parseInt(rate)) / (total_reviews.data().count)
+        ).toFixed(1);
+
     await setDoc(
         doc(db, 'buildings', id, 'menu', food_id),
         {rate: total_rate},

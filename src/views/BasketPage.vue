@@ -49,6 +49,7 @@
     margin-bottom: 10px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
     animation: show 0.5s ease;
+    align-items: center;
 }
 @keyframes show {
     from {opacity: 0;}
