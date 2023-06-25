@@ -107,6 +107,7 @@
 }
 .feedback-mark {
     color: rgb(255, 168, 54);
+    font-size: 1em;
 }
 .feedback {
     padding: 10px;
@@ -167,6 +168,7 @@ onMounted(async () => {
     } else {
         fbCard.img_url = await getDownloadURL(storageRef(storage,'stolovka-images/not-found.png'))
     }
+    fbCard.rate = (parseFloat(fbCard.rate)).toFixed(1)
     item.value = fbCard;
     let fbReview = [];
     const querySnapshot = await getDocs(q);

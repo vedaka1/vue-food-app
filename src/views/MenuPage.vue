@@ -7,6 +7,9 @@
                 <div class="info address">{{card.address}}</div>
             </div>
         </div>
+        <RouterLink to="/NewBuilding" v-if="user_role" >
+            <div class="btn">Добавить</div>
+        </RouterLink>
         <div class="container" v-for="title in Object.keys(items)" :key="title">
             <p>{{ title }}</p>
             <div class="cards">
@@ -210,17 +213,21 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { getFirestore, collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { getStorage, ref as storageRef  , getDownloadURL } from "firebase/storage";
-// import { getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth";
+import { getRole } from '@/user.js'
 
 const id = useRouter().currentRoute.value.params.id;
 const db = getFirestore();
+const user = getAuth().currentUser.uid;
 const items = ref([]);
 const storage = getStorage();
 const card = ref([]);
+let user_role;
 let img_main = '';
 let hours = [];
-
+let basket_list = JSON.parse(localStorage.getItem(user));
 onMounted(async () => {  
+    user_role = await getRole();
     const cardIdRef = await getDoc(doc(db, 'buildings', id));
     card.value = cardIdRef.data();
     img_main = await getDownloadURL(storageRef(storage, card.value.img_url))
@@ -230,16 +237,17 @@ onMounted(async () => {
     const fbMenu = {};
     querySnapshotMenu.forEach((doc) => {
         let item_count = 0;
-        if (doc.id in localStorage) {
-            let localItem = JSON.parse(localStorage.getItem(doc.id));
+        if (doc.id in basket_list.basket) {
+            let localItem = basket_list.basket[doc.id];
             item_count = localItem['count']
         } else {
             item_count = 0;
         }
+        let rate = (parseFloat(doc.data().rate)).toFixed(1);
         if (doc.data().type in fbMenu) {
-            fbMenu[doc.data().type].push({ id: doc.id, ...doc.data(), count: item_count });
+            fbMenu[doc.data().type].push({ id: doc.id, ...doc.data(), count: item_count, rate: rate });
         } else {
-            fbMenu[doc.data().type] = [{ id: doc.id, ...doc.data(), count: item_count }]; 
+            fbMenu[doc.data().type] = [{ id: doc.id, ...doc.data(), count: item_count, rate: rate }]; 
         }
         });
                  
@@ -258,20 +266,24 @@ onMounted(async () => {
     } catch (error) {
         console.log(error.message)
     }
-    items.value = fbMenu;
+
+    items.value = fbMenu;   
 });
 const addItem = (item) => {
     item.count++;
-    localStorage.setItem(item.id, JSON.stringify(item));
+    basket_list.basket[item.id] = item;
+    localStorage.setItem(user, JSON.stringify(basket_list));
 };
 
 const deleteItem = (item) => {
     if (item.count > 0) {
         item.count--;
-        localStorage.setItem(item.id, JSON.stringify({count: item.count, build: id}));
+        basket_list.basket[item.id].count = item.count;
+        localStorage.setItem(user, JSON.stringify(basket_list))
     }
     if (item.count == 0) {
-        localStorage.removeItem(item.id);
+        delete basket_list.basket[item.id];
+        localStorage.setItem(user, JSON.stringify(basket_list))
     }
 }
 </script>

@@ -5,6 +5,8 @@ import './assets/main.css'
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { getApp } from "firebase/app";
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 
 const firebaseConfig = {
@@ -16,8 +18,14 @@ const firebaseConfig = {
   appId: "1:736907800776:web:bf7b87c51c163e574875fd"
 };
 
+if (localStorage.getItem('theme') == 'dark') {
+    document.body.classList.add('dark-theme')
+}
+
 // Initialize Firebase
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const firebaseApp = getApp();
 getStorage(firebaseApp, "gs://stolovka-app.appspot.com/");
 createApp(App).use(router).mount('#app')
+export const db = getFirestore(); 
+export const auth = getAuth(app);

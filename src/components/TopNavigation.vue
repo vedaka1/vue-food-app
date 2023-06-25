@@ -1,6 +1,6 @@
 <template>
     <div class="top-bar">
-        <h2>Столовка</h2>
+        <h2>NARFood</h2>
         <RouterLink to="/ProfilePage">
             <p>{{ account.login }}</p>
             <button class="btn-top-nav">

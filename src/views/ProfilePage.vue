@@ -6,6 +6,7 @@
                 <button class="btn" @click="handleSignOut">Выйти</button>
                 <button class="btn" @click="changeTheme">Сменить тему</button>
             </div>
+            <div class="login" v-if="user_role">Доступ: {{ user_role }}</div>
             <div v-if="user_reviews != 0">Ваши отзывы:</div>
             <div class="feedback" v-for="review in user_reviews" :key="review.id" :id="review.id">
                 <div class="feedback-info">
@@ -53,6 +54,7 @@
 }
 .login {
     flex-grow: 1;
+    padding: 10px 0;
 }
 .feedback-info {
     text-align: left;
@@ -127,6 +129,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { getDocs, getDoc, doc, getFirestore, query, where, collection, deleteDoc, setDoc} from "firebase/firestore";
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
+import { getRole } from '@/user'
 
 const db = getFirestore()
 const account = ref([])
@@ -136,8 +139,10 @@ const router = useRouter();
 const user_q = query(collection(db, 'reviews'), where('user', '==', user))
 let auth = getAuth();
 let total_rate = 0;
+let user_role;
 
 onMounted(async () => {
+    user_role = await getRole(db, user);
     const userRef = await getDoc(doc(db, 'users', user));
     let fbReview = [];
     const querySnapshot = await getDocs(user_q);
@@ -176,7 +181,7 @@ const delete_review = async (review_id, building_id, food_id) => {
         counter += parseInt(doc.data().rate);
     });
     if (reviews_counter != 0) {
-        total_rate = (counter / reviews_counter).toFixed(1);
+        total_rate = (counter / reviews_counter).toFixed(6);
     }
 
     await setDoc(
@@ -189,6 +194,11 @@ const delete_review = async (review_id, building_id, food_id) => {
 
 const changeTheme = () => {
     document.body.classList.toggle('dark-theme');
+    if (document.body.classList.contains('dark-theme')) {
+        localStorage.setItem('theme', 'dark')
+    } else {
+        localStorage.setItem('theme', 'light')
+    }
 }
 </script>
 

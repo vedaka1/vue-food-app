@@ -129,15 +129,10 @@ const user = auth.currentUser.uid;
 const usersRef = collection(db, "users", user, "spendings");
 
 const date = new Date().getTime().toString();
-const dishesList = {};
 
 onMounted(async () => {
-    for(let i=0; i<localStorage.length; i++) {
-        let key = localStorage.key(i);
-        let item = JSON.parse(localStorage.getItem(key));
-        list[i] = item;
-        dishesList[i] = {name: item.name, count: item.count, price: item.price };
-    }
+    let storage = JSON.parse(localStorage.getItem(user));
+    list = storage.basket;
     items.value = list;
     totalPrice()
 });
@@ -151,24 +146,35 @@ const totalPrice = () => {
 
 const addItem = (item) => {
     item.count++;
-    localStorage.setItem(item.id, JSON.stringify(item));
+    let storage = JSON.parse(localStorage.getItem(user));
+    storage.basket[item.id] = item;
+    localStorage.setItem(user, JSON.stringify(storage));
     totalPrice()
 };
 
 const deleteItem = (item) => {
+    let storage = JSON.parse(localStorage.getItem(user));
     if (item.count > 0) {
         item.count--;
-        localStorage.setItem(item.id, JSON.stringify(item));
+        storage.basket[item.id].count = item.count;
+        localStorage.setItem(user, JSON.stringify(storage))
         totalPrice()
     }
     if (item.count == 0) {
         document.getElementById(item.id).style.display = 'none';
-        localStorage.removeItem(item.id);
+        delete storage.basket[item.id];
+        localStorage.setItem(user, JSON.stringify(storage))
         totalPrice()
     }
 };
+
 const clearBasket = () => {
-    localStorage.clear();
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key !== 'theme') {
+            localStorage.removeItem(key);
+        }
+    }
     document.getElementById('cards').style.display = 'none';
     total_price.value = 0;
 };
@@ -190,16 +196,12 @@ const raise_modal = (text, color) => {
 
 const addSpend = async () => {
     if (localStorage.length > 0) {
-        for (let i=0; i<localStorage.length; i++) {
-            let key = localStorage.key(i);
-            let item = JSON.parse(localStorage.getItem(key));
-            dishesList[i] = {name: item.name, count: item.count, price: item.price };
-        }
+        let storage = JSON.parse(localStorage.getItem(user));
         await setDoc(
             doc(usersRef), 
             {   amount: total_price.value,
                 date: date,
-                dishes: dishesList,
+                dishes: storage.basket,
             })
             .then(() =>{
                 raise_modal('Успешно!', 'lightgreen')

@@ -156,11 +156,15 @@ const saveReview = async () => {
             rate: rate,
             date: new Date().getTime().toString()
         });
-        let total_reviews = await getCountFromServer(q)
-        let total_rate = (
-            ((total_reviews.data().count -= 1) * parseFloat(food_rate.data().rate) + parseInt(rate)) / (total_reviews.data().count)
-        ).toFixed(1);
-
+        let total_reviews = await getCountFromServer(q);
+        let total_rate;
+        if (total_reviews.data().count != 0) {
+            total_rate = (
+                ((total_reviews.data().count -= 1) * parseFloat(food_rate.data().rate) + parseInt(rate)) / (total_reviews.data().count)
+            ).toFixed(6);
+        } else {
+            total_rate = parseInt(rate) / 1;
+        }
     await setDoc(
         doc(db, 'buildings', id, 'menu', food_id),
         {rate: total_rate},

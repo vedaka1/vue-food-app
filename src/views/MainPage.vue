@@ -2,6 +2,9 @@
     <div class="main-page">
         <div class="head-text">Доступные меню:</div>
         <div class="cards">
+            <RouterLink to="/NewBuilding" v-if="user_role" >
+                <div class="btn">Добавить</div>
+            </RouterLink>
             <div class="card" v-for="card in cards" :key="card.id">
                 <RouterLink :to="{name: 'menu', params: {id: card.id}}">
                     <button class="card-item">
@@ -46,6 +49,8 @@ a {
     width: 100%;
     text-decoration: none;
     border: none;
+    display: flex;
+    justify-content: center;
 }
 
 .card {
@@ -101,18 +106,31 @@ a:last-child {
     overflow: hidden;
     border-radius: 15px;
 }
-
+.btn {
+    max-width: 300px;
+    margin-top: 0;
+}
 </style>
-
 <script setup>
 import { ref, onMounted} from 'vue';
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs} from "firebase/firestore";
 import { getStorage, ref as storageRef , getDownloadURL } from "firebase/storage";
+import { getRole } from '@/user';
+import { auth } from '@/main';
+
 // Connect database to load cards
 const db = getFirestore();
 const cards = ref([]);
 const storage = getStorage();
+const user = auth.currentUser.uid;
+let user_role;
+
 onMounted(async () => {
+    user_role = await getRole();
+    if (localStorage.getItem(user) === null) {
+        localStorage.setItem(user, JSON.stringify({basket: {}, settings: {user_role}}))
+    } 
+    console.log(localStorage);
     const querySnapshot = await getDocs(collection(db, `buildings`));
     const fbCards = [];
     querySnapshot.forEach((doc) => {
@@ -124,4 +142,5 @@ onMounted(async () => {
         }
     cards.value = fbCards;
 });
+
 </script>

@@ -1,6 +1,7 @@
 // import Vue from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth } from './main';
 
 const routes = [
     {
@@ -78,6 +79,16 @@ const routes = [
         meta: {
             requiresAuth: true,
           },
+    },
+    {
+        path: '/NewBuilding',
+        name: 'new_building',
+        component: () => import('../src/views/NewBuilding.vue'),
+        props: true,
+        meta: {
+            requiresAuth: true,
+            requiresAdmin: true,
+          },
     }
 ]
 
@@ -88,20 +99,27 @@ const router = createRouter({
 
 const getCurrentUser = () => {
     return new Promise((resolve, reject) => {
-      const removeListener = onAuthStateChanged(
-        getAuth(),
-        (user) => {
-          removeListener();
-          resolve(user);
-        },
-        reject
-      );
+        const removeListener = onAuthStateChanged(
+            getAuth(),
+            (user) => {
+                removeListener();
+                resolve(user);   
+            },
+            reject
+        );
     });
-  };
-  
+};
+
 router.beforeEach(async (to, from, next) => {
     const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+    const requiresAdmin = to.matched.some((record) => record.meta.requiresAdmin);
     const isAuthenticated = await getCurrentUser();
+    if (isAuthenticated) {
+        const isAdmin = JSON.parse(localStorage.getItem(auth.currentUser.uid))
+        if (requiresAdmin && isAdmin.settings.user_role != 'admin') {
+            router.go(-1)
+        }
+    }
     if (requiresAuth && !isAuthenticated) {
         next("/SignInPage");
     } else if (
@@ -112,6 +130,6 @@ router.beforeEach(async (to, from, next) => {
     } else {
         next();
     }
-  });
+});
 
 export default router

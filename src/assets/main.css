@@ -4,6 +4,7 @@
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
+    outline-color: var(--items-color);
   }
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
@@ -38,6 +39,9 @@ body::-webkit-scrollbar {
     border: 1px solid rgba(0, 0, 0, 0.1);
     background-color: var(--btn-color);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .btn:hover {
     background-color: rgb(59, 59, 59);
@@ -84,9 +88,9 @@ body::-webkit-scrollbar {
     --text-second-color: #7e7e7e;
     --navigation-color: rgba(255, 255, 255, 0.5);
     --navigation-bottom-color: #ffffff;
+    --items-color: #FFFFFF;
     --btn-color: #000000;
     --btn-second-color: #e6e6e6;
-    --items-color: #FFFFFF;
     --btn-menu: url('../icons/food-icon.png');
     --btn-spendings: url('../icons/wallet.png');
     --btn-basket: url('../icons/basket.png');
@@ -97,9 +101,9 @@ body::-webkit-scrollbar {
     --bg-color: #000000;
     --text-color: #ffffff;
     --text-second-color: #b3b3b3;
+    --items-color: #313131;
     --btn-color: #292929;
     --btn-second-color: #383838;
-    --items-color: #313131;
     --btn-menu: url('../icons/food-icon-white.png');
     --btn-spendings: url('../icons/wallet-white.png');
     --btn-basket: url('../icons/basket-white.png');
