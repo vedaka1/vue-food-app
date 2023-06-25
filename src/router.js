@@ -1,7 +1,9 @@
 // import Vue from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { auth } from './main';
+import { db } from './main';
+import { doc, getDoc } from 'firebase/firestore';
+
 
 const routes = [
     {
@@ -10,6 +12,7 @@ const routes = [
         props: true,
         meta: {
             requiresAuth: false,
+            requiresAdmin: false,
           },
     },
     {
@@ -19,6 +22,7 @@ const routes = [
         props: true,
         meta: {
             requiresAuth: true,
+            requiresAdmin: false,
           },
     },
     {
@@ -27,6 +31,7 @@ const routes = [
         props: true,
         meta: {
             requiresAuth: false,
+            requiresAdmin: false,
           },
     },
     {
@@ -35,6 +40,7 @@ const routes = [
         props: true,
         meta: {
             requiresAuth: true,
+            requiresAdmin: false,
           },
     },
     {
@@ -43,6 +49,7 @@ const routes = [
         props: true,
         meta: {
             requiresAuth: true,
+            requiresAdmin: false,
           },
     },
     {
@@ -51,6 +58,7 @@ const routes = [
         props: true,
         meta: {
             requiresAuth: true,
+            requiresAdmin: false,
           },
     },
     {
@@ -60,6 +68,7 @@ const routes = [
         props: true,
         meta: {
             requiresAuth: true,
+            requiresAdmin: false,
           },
     },
     {
@@ -69,6 +78,7 @@ const routes = [
         props: true,
         meta: {
             requiresAuth: true,
+            requiresAdmin: false,
           },
     },
     {
@@ -78,12 +88,23 @@ const routes = [
         props: true,
         meta: {
             requiresAuth: true,
+            requiresAdmin: false,
           },
     },
     {
         path: '/NewBuilding',
         name: 'new_building',
         component: () => import('../src/views/NewBuilding.vue'),
+        props: true,
+        meta: {
+            requiresAuth: true,
+            requiresAdmin: true,
+          },
+    },
+    {
+        path: '/:id/NewDish',
+        name: 'new_dish',
+        component: () => import('../src/views/NewDish.vue'),
         props: true,
         meta: {
             requiresAuth: true,
@@ -110,13 +131,27 @@ const getCurrentUser = () => {
     });
 };
 
+const getUserRole = () => {
+    return new Promise((resolve, reject) => {
+        const removeListener = onAuthStateChanged(
+            getAuth(),
+            async (user) => {
+                removeListener();
+                let snapshot = await getDoc(doc(db, 'users', user.uid));
+                resolve(snapshot.data().role)
+            },
+            reject
+        );    
+    })
+};
+
 router.beforeEach(async (to, from, next) => {
     const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
     const requiresAdmin = to.matched.some((record) => record.meta.requiresAdmin);
     const isAuthenticated = await getCurrentUser();
     if (isAuthenticated) {
-        const isAdmin = JSON.parse(localStorage.getItem(auth.currentUser.uid))
-        if (requiresAdmin && isAdmin.settings.user_role != 'admin') {
+        const isAdmin = await getUserRole();
+        if (requiresAdmin && isAdmin != 'admin') {
             router.go(-1)
         }
     }

@@ -142,7 +142,7 @@ let total_rate = 0;
 let user_role;
 
 onMounted(async () => {
-    user_role = await getRole(db, user);
+    user_role = await getRole(user);
     const userRef = await getDoc(doc(db, 'users', user));
     let fbReview = [];
     const querySnapshot = await getDocs(user_q);
@@ -173,6 +173,10 @@ const handleSignOut = () => {
 
 const delete_review = async (review_id, building_id, food_id) => {
     await deleteDoc(doc(db, 'reviews', review_id));
+    document.getElementById(review_id).classList.add('visible')
+    setTimeout(() => {
+        document.getElementById(review_id).style.display = 'none';
+    }, 1000);
     let reviews_counter = 0;
     let counter = 0;
     const querySnapshot = await getDocs(query(collection(db, 'reviews'), where('food_id', '==', food_id)));
@@ -189,7 +193,6 @@ const delete_review = async (review_id, building_id, food_id) => {
         {rate: total_rate},
         {merge: true}
     )
-    document.getElementById(review_id).style.display = 'none';
 }
 
 const changeTheme = () => {

@@ -6,16 +6,9 @@
             id="file-input">
             <img src="#" alt="" id="image">  
         </div>
-        <input type="text" class="data-input" placeholder="Название" id="building">
-        <input type="text" class="data-input" placeholder="Адрес" id="address">
-        <div class="hours-input">
-            <label for="from">с</label>
-                <input type="number" class="data-input" placeholder="Введите число" id="from">
-            
-            <label for=""> до</label>
-                <input type="number" class="data-input" placeholder="Введите число" id="to">
-            
-        </div>
+        <input type="text" class="data-input" placeholder="Название" id="dish">
+        <input type="number" class="data-input" placeholder="Цена" id="price">
+        <input type="text" class="data-input" placeholder="Тип блюда" id="type">
         <button class="btn" @click="add()" id="btn">Загрузить</button>
     </div>
 </template>
@@ -86,9 +79,11 @@ import router from '@/router';
 import { collection, doc, getFirestore, setDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
 const db = getFirestore();
 const storage = getStorage();
+const id = useRouter().currentRoute.value.params.id;
 let file;
 
 onMounted(() => {
@@ -115,27 +110,28 @@ const raise_modal = (text, color) => {
     }
 }
 const add = async () => {
-    const building = document.getElementById('building').value;
-    const address = document.getElementById('address').value;
-    const from = document.getElementById('from').value;
-    const to = document.getElementById('to').value;
-    uploadBytes(ref(storage,'stolovka-images/' + building + '.'+ file.type.substring(6)), file)
+    const dish = document.getElementById('dish').value;
+    const type = document.getElementById('type').value;
+    const price = document.getElementById('price').value;
+    uploadBytes(ref(storage,'stolovka-images/food/' + dish + '.'+ file.type.substring(6)), file)
     .then(async () => {
-        let img = 'gs://stolovka-app.appspot.com/stolovka-images/'+building+'.'+file.type.substring(6);
-        if ((building && address && from && to) != 0) {
+        let img = 'gs://stolovka-app.appspot.com/stolovka-images/food/'+dish+'.'+file.type.substring(6);
+        if ((dish && type && price) != 0) {
             await setDoc(
-                doc(collection(db, 'buildings')), 
+                doc(collection(db, 'buildings', id, 'menu')), 
                 {   
-                    name: building,
-                    address: address,
+                    name: dish,
+                    price: price,
+                    rate: 0,
+                    type: type,
                     img_url: img,
-                    working_hours: [from, to]
+                    
                 });
         } else {
             raise_modal('Не добавлено', '#ff6363')
         }
     })
     .catch(console.error());
-    router.push('/');
+    router.go(-1);
 }
 </script>

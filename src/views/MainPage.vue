@@ -5,7 +5,8 @@
             <RouterLink to="/NewBuilding" v-if="user_role" >
                 <div class="btn">Добавить</div>
             </RouterLink>
-            <div class="card" v-for="card in cards" :key="card.id">
+            <div class="card" v-for="card in cards" :key="card.id" :id="card.id">
+                <button v-if="user_role" class="btn delete-card-btn" @click="deleteBuilding(card)">Удалить</button>
                 <RouterLink :to="{name: 'menu', params: {id: card.id}}">
                     <button class="card-item">
                         <img class="card-img" :src="card.img_url" alt="Здание">
@@ -58,12 +59,8 @@ a {
     height: 200px;
     width: 300px;
     margin-bottom: 10px;
-    animation: 0.5s show ease;
+    position: relative;
     
-}
-@keyframes show {
-    from {opacity: 0;}
-    to {opacity: 1;}
 }
 
 a .card-item {
@@ -97,6 +94,14 @@ p {
 a:last-child {
     margin-bottom: 10vh;
 }
+a:active,
+a:hover,
+a::after {
+    text-decoration: none;
+    background-color: none;
+    color: none;
+    -webkit-tap-highlight-color: transparent;
+}
 
 .card-img {
     width: 100%;
@@ -110,11 +115,21 @@ a:last-child {
     max-width: 300px;
     margin-top: 0;
 }
+.delete-card-btn {
+    position: absolute;
+    color: white;
+    top: 5px;
+    height: 30px;
+    background-color: #ff3b3b;
+    padding: 10px;
+    width: fit-content;
+    left: 5px;
+}
 </style>
 <script setup>
 import { ref, onMounted} from 'vue';
-import { getFirestore, collection, getDocs} from "firebase/firestore";
-import { getStorage, ref as storageRef , getDownloadURL } from "firebase/storage";
+import { getFirestore, collection, getDocs, deleteDoc, doc, query, where} from "firebase/firestore";
+import { getStorage, ref as storageRef , getDownloadURL, deleteObject } from "firebase/storage";
 import { getRole } from '@/user';
 import { auth } from '@/main';
 
@@ -126,11 +141,10 @@ const user = auth.currentUser.uid;
 let user_role;
 
 onMounted(async () => {
-    user_role = await getRole();
+    user_role = await getRole(user);
     if (localStorage.getItem(user) === null) {
         localStorage.setItem(user, JSON.stringify({basket: {}, settings: {user_role}}))
-    } 
-    console.log(localStorage);
+    }
     const querySnapshot = await getDocs(collection(db, `buildings`));
     const fbCards = [];
     querySnapshot.forEach((doc) => {
@@ -139,8 +153,36 @@ onMounted(async () => {
     for (let x in fbCards) {
         fbCards[x].img_url = await getDownloadURL(storageRef(storage, fbCards[x].img_url))
         .catch((error) => {console.log(error.message)});
+        fbCards[x].img_name = (storageRef(storage, fbCards[x].img_url)).fullPath;
         }
     cards.value = fbCards;
 });
 
+const deleteBuilding = async (card) => {
+    const querySnapshot = await getDocs(query(collection(db, 'reviews'), where('building', '==', card.id)));
+    let review_list = [];
+    querySnapshot.forEach((doc) => {
+        review_list.push({id: doc.id});
+    });
+    review_list.forEach( async (doc_item) => {
+        await deleteDoc(doc(db, 'reviews', doc_item.id))
+    });
+    const menuSnapshot = await getDocs(query(collection(db, 'buildings', card.id, 'menu')));
+    let menu_list = [];
+    menuSnapshot.forEach((doc) => {
+        menu_list.push({id: doc.id});
+    });
+    menu_list.forEach( async (doc_item) => {
+        await deleteDoc(doc(db, 'buildings', card.id, 'menu', doc_item.id));
+    });
+    await deleteDoc(doc(db, 'buildings', card.id));
+    document.getElementById(card.id).classList.add('visible');
+    setTimeout(() => {
+        document.getElementById(card.id).style.display = 'none';
+    }, 1000);
+    deleteObject(storageRef(storage, card.img_name ))
+    .catch((error) => {
+        console.log(error);
+    });
+}
 </script>

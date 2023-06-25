@@ -7,13 +7,13 @@
                 <div class="info address">{{card.address}}</div>
             </div>
         </div>
-        <RouterLink to="/NewBuilding" v-if="user_role" >
+        <RouterLink :to="{name: 'new_dish', params: {id: id}}" v-if="user_role" >
             <div class="btn">Добавить</div>
         </RouterLink>
         <div class="container" v-for="title in Object.keys(items)" :key="title">
             <p>{{ title }}</p>
             <div class="cards">
-                <div class="card" v-for="item in items[title]" :key="item.id">    
+                <div class="card" v-for="item in items[title]" :key="item.id" :id="item.id">    
                     <div class="card-items">
                         <RouterLink :to="{name: 'food', params: {id: id, food_id: item.id}}">
                             <img :src="item.img_url" class="card-img" loading="lazy">
@@ -150,6 +150,7 @@ a::after {
     justify-content: center;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
     overflow: hidden;
+    position: relative;
 }
 .card-info {
     flex-basis: 25%;
@@ -206,6 +207,11 @@ a .card-img {
     width: 100%;
     height: 100%;
 }
+.btn {
+    margin: 0 auto;
+    max-width: 500px;
+    margin-bottom: 10px;
+}
 </style>
 
 <script setup>
@@ -227,7 +233,7 @@ let img_main = '';
 let hours = [];
 let basket_list = JSON.parse(localStorage.getItem(user));
 onMounted(async () => {  
-    user_role = await getRole();
+    user_role = await getRole(user);
     const cardIdRef = await getDoc(doc(db, 'buildings', id));
     card.value = cardIdRef.data();
     img_main = await getDownloadURL(storageRef(storage, card.value.img_url))
@@ -245,7 +251,7 @@ onMounted(async () => {
         }
         let rate = (parseFloat(doc.data().rate)).toFixed(1);
         if (doc.data().type in fbMenu) {
-            fbMenu[doc.data().type].push({ id: doc.id, ...doc.data(), count: item_count, rate: rate });
+            fbMenu[doc.data().type].push({ id: doc.id, ...doc.data(), count: item_count, rate: rate, img_name: '' });
         } else {
             fbMenu[doc.data().type] = [{ id: doc.id, ...doc.data(), count: item_count, rate: rate }]; 
         }
@@ -254,19 +260,21 @@ onMounted(async () => {
     try {
         for (let x in fbMenu) {
             for (let y in fbMenu[x]) {
-                if (fbMenu[x][y].img_url != "") {
+                try {
                     fbMenu[x][y].img_url = await getDownloadURL(storageRef(storage, fbMenu[x][y].img_url))
-                } else {
+                } catch (error) {
+                    console.log(error);
                     fbMenu[x][y].img_url = await getDownloadURL(
-                        storageRef(storage, 'gs://stolovka-app.appspot.com/stolovka-images/not-found.png')
-                        )
-                }  
+                    storageRef(storage, 'gs://stolovka-app.appspot.com/stolovka-images/not-found.png')
+                    );
+                    fbMenu[x][y].img_name = (storageRef(storage, fbMenu[x][y].img_url)).fullPath;
+                }
+                fbMenu[x][y].img_name = (storageRef(storage, fbMenu[x][y].img_url)).fullPath;
             }
-    } 
+        } 
     } catch (error) {
         console.log(error.message)
     }
-
     items.value = fbMenu;   
 });
 const addItem = (item) => {

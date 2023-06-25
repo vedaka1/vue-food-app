@@ -1,9 +1,7 @@
 import {doc, getDoc} from 'firebase/firestore'
-import { auth } from './main';
 import { db } from './main';
-const user = auth.currentUser.uid;
 let role;
-const getRole = async () => {
+const getRole = async (user) => {
     let snapshot = await getDoc(doc(db, 'users', user));
     if (snapshot.data().role != 'admin') {
         return false   

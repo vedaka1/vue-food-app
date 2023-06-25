@@ -67,7 +67,11 @@ body::-webkit-scrollbar {
     display: block;
     animation: fade-out 1s forwards;
 }
-
+@keyframes fade-out {
+    0% {opacity: 1;}
+    50% {opacity: 0.8;}
+    100% {opacity: 0; display: none}
+}
 #menu-icon {
     background-image: var(--btn-menu);
 }
@@ -77,11 +81,7 @@ body::-webkit-scrollbar {
 #basket-icon {
     background-image: var(--btn-basket);
 }
-@keyframes fade-out {
-    0% {opacity: 1;}
-    50% {opacity: 0.8;}
-    100% {opacity: 0;}
-}
+
 :root {
     --bg-color: #ffffff;
     --text-color: #000000;
