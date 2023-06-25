@@ -248,26 +248,30 @@ const deleteCard = async (card) => {
     router.go(-1);
 }
 const deleteReview = async (review_id) => {
-    await deleteDoc(doc(db, 'reviews', review_id));
-    document.getElementById(review_id).classList.add('visible')
-    setTimeout(() => {
-        document.getElementById(review_id).style.display = 'none';
-    }, 1000);
-    let reviews_counter = 0;
-    let counter = 0;
-    const querySnapshot = await getDocs(query(collection(db, 'reviews'), where('food_id', '==', food_id)));
-    querySnapshot.forEach((doc) => {
-        reviews_counter += 1;
-        counter += parseInt(doc.data().rate);
-    });
-    if (reviews_counter != 0) {
-        total_rate = (counter / reviews_counter).toFixed(6);
-    }
+    if (user_role == 'admin') {
+        await deleteDoc(doc(db, 'reviews', review_id));
+        document.getElementById(review_id).classList.add('visible')
+        setTimeout(() => {
+            document.getElementById(review_id).style.display = 'none';
+        }, 1000);
+        let reviews_counter = 0;
+        let counter = 0;
+        const querySnapshot = await getDocs(query(collection(db, 'reviews'), where('food_id', '==', food_id)));
+        querySnapshot.forEach((doc) => {
+            reviews_counter += 1;
+            counter += parseInt(doc.data().rate);
+        });
+        if (reviews_counter != 0) {
+            total_rate = (counter / reviews_counter).toFixed(6);
+        }
 
-    await setDoc(
-        doc(db, 'buildings', id, 'menu', food_id),
-        {rate: total_rate},
-        {merge: true}
-    )
+        await setDoc(
+            doc(db, 'buildings', id, 'menu', food_id),
+            {rate: total_rate},
+            {merge: true}
+        )
+    } else {
+        console.log('Недостаточно прав!');
+    }
 }
 </script>

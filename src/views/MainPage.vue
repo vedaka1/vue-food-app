@@ -159,30 +159,34 @@ onMounted(async () => {
 });
 
 const deleteBuilding = async (card) => {
-    const querySnapshot = await getDocs(query(collection(db, 'reviews'), where('building', '==', card.id)));
-    let review_list = [];
-    querySnapshot.forEach((doc) => {
-        review_list.push({id: doc.id});
-    });
-    review_list.forEach( async (doc_item) => {
-        await deleteDoc(doc(db, 'reviews', doc_item.id))
-    });
-    const menuSnapshot = await getDocs(query(collection(db, 'buildings', card.id, 'menu')));
-    let menu_list = [];
-    menuSnapshot.forEach((doc) => {
-        menu_list.push({id: doc.id});
-    });
-    menu_list.forEach( async (doc_item) => {
-        await deleteDoc(doc(db, 'buildings', card.id, 'menu', doc_item.id));
-    });
-    await deleteDoc(doc(db, 'buildings', card.id));
-    document.getElementById(card.id).classList.add('visible');
-    setTimeout(() => {
-        document.getElementById(card.id).style.display = 'none';
-    }, 1000);
-    deleteObject(storageRef(storage, card.img_name ))
-    .catch((error) => {
-        console.log(error);
-    });
+    if (user_role == 'admin') {
+        const querySnapshot = await getDocs(query(collection(db, 'reviews'), where('building', '==', card.id)));
+        let review_list = [];
+        querySnapshot.forEach((doc) => {
+            review_list.push({id: doc.id});
+        });
+        review_list.forEach( async (doc_item) => {
+            await deleteDoc(doc(db, 'reviews', doc_item.id))
+        });
+        const menuSnapshot = await getDocs(query(collection(db, 'buildings', card.id, 'menu')));
+        let menu_list = [];
+        menuSnapshot.forEach((doc) => {
+            menu_list.push({id: doc.id});
+        });
+        menu_list.forEach( async (doc_item) => {
+            await deleteDoc(doc(db, 'buildings', card.id, 'menu', doc_item.id));
+        });
+        await deleteDoc(doc(db, 'buildings', card.id));
+        document.getElementById(card.id).classList.add('visible');
+        setTimeout(() => {
+            document.getElementById(card.id).style.display = 'none';
+        }, 1000);
+        deleteObject(storageRef(storage, card.img_name ))
+        .catch((error) => {
+            console.log(error);
+        });
+    } else {
+        console.log('Недостаточно прав!');
+    }
 }
 </script>
