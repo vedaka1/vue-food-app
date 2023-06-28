@@ -118,12 +118,17 @@ a::after {
 .delete-card-btn {
     position: absolute;
     color: white;
+    box-shadow: none;
     top: 5px;
+    box-shadow: none;
     height: 30px;
     background-color: #ff3b3b;
     padding: 10px;
     width: fit-content;
     left: 5px;
+}
+.delete-card-btn:hover {
+    background-color: #ff6969;
 }
 </style>
 <script setup>

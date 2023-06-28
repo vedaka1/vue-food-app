@@ -14,8 +14,8 @@
                     <div>{{ item.price }} ₽</div>
                 </div>
             </div>
-            <button v-if="user_role" class="btn delete-card-btn" @click="deleteCard(item)">Удалить</button>
         </div>
+        <button v-if="user_role" class="btn delete-card-btn" @click="deleteCard(item)">Удалить</button> 
         <div class="feedback-list">
             Отзывы:
             <RouterLink :to="{name: 'review', params: {id: id, food_id: food_id} }">
@@ -165,18 +165,29 @@ a::after {
 .delete-card-btn {
     color: white;
     height: 40px;
+    max-width: 800px;
     background-color: #ff3b3b;
     padding: 10px;
     font-size: 0.7em;
+    box-shadow: none;
+    margin-top: 0;
+    margin-bottom: 20px;
 }
 .delete-review-btn {
     color: white;
     margin: 0;
     height: 100%;
+    box-shadow: none;
     background-color: #ff3b3b;
     padding: 10px;
     width: fit-content;
     font-size: 0.8em;
+}
+.delete-card-btn:hover {
+    background-color: #ff6969;
+}
+.delete-review-btn:hover {
+    background-color: #ff6969;
 }
 </style>
 

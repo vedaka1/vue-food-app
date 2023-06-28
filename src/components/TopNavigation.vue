@@ -1,12 +1,14 @@
 <template>
     <div class="top-bar">
-        <h2>NARFood</h2>
-        <RouterLink to="/ProfilePage">
-            <p>{{ account.login }}</p>
-            <button class="btn-top-nav">
-                <img class="icon" src="../icons/user.png" alt="+">
-            </button>
-        </RouterLink>
+        <div class="container">
+            <h2>NARFood</h2>
+            <RouterLink to="/ProfilePage">
+                <p>{{ account.login }}</p>
+                <button class="btn-top-nav">
+                    <img class="icon" src="../icons/user.png" alt="+">
+                </button>
+            </RouterLink>
+        </div>
     </div>
 </template>
 
@@ -19,7 +21,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     font-size: 1rem;
     align-items: center;
@@ -28,7 +30,12 @@
     backdrop-filter: blur(15px);
     z-index: 1;
 }
-
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+}
 .icon {
     width: 20px;
     height: 20px;

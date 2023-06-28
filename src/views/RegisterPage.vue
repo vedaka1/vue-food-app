@@ -1,7 +1,7 @@
 <template>
     <div class="main-page">
         <div class="nav-header">
-            Столовка Сафу
+            NARFood
         </div>
         <div class="login">
             <input class="font" type="text" placeholder="login" name="login" id="login" v-model="login">
