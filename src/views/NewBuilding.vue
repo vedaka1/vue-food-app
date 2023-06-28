@@ -119,23 +119,28 @@ const add = async () => {
     const address = document.getElementById('address').value;
     const from = document.getElementById('from').value;
     const to = document.getElementById('to').value;
-    uploadBytes(ref(storage,'stolovka-images/' + building + '.'+ file.type.substring(6)), file)
-    .then(async () => {
-        let img = 'gs://stolovka-app.appspot.com/stolovka-images/'+building+'.'+file.type.substring(6);
-        if ((building && address && from && to) != 0) {
-            await setDoc(
-                doc(collection(db, 'buildings')), 
-                {   
-                    name: building,
-                    address: address,
-                    img_url: img,
-                    working_hours: [from, to]
-                });
-        } else {
-            raise_modal('Не добавлено', '#ff6363')
-        }
-    })
-    .catch(console.error());
-    router.push('/');
+    try {
+        uploadBytes(ref(storage,'stolovka-images/' + building + '.'+ file.type.substring(6)), file)
+        .then(async () => {
+            let img = 'gs://stolovka-app.appspot.com/stolovka-images/'+building+'.'+file.type.substring(6);
+            if ((building && address && from && to) != 0) {
+                await setDoc(
+                    doc(collection(db, 'buildings')), 
+                    {   
+                        name: building,
+                        address: address,
+                        img_url: img,
+                        working_hours: [from, to]
+                    });
+            } else {
+                raise_modal('Не добавлено', '#ff6363')
+            }
+        })
+        .then(() => {
+        router.push('/');
+        })
+    } catch {
+        console.error()
+    }
 }
 </script>

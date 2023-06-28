@@ -113,25 +113,29 @@ const add = async () => {
     const dish = document.getElementById('dish').value;
     const type = document.getElementById('type').value;
     const price = document.getElementById('price').value;
-    uploadBytes(ref(storage,'stolovka-images/food/' + dish + '.'+ file.type.substring(6)), file)
-    .then(async () => {
-        let img = 'gs://stolovka-app.appspot.com/stolovka-images/food/'+dish+'.'+file.type.substring(6);
-        if ((dish && type && price) != 0) {
-            await setDoc(
-                doc(collection(db, 'buildings', id, 'menu')), 
-                {   
-                    name: dish,
-                    price: price,
-                    rate: 0,
-                    type: type,
-                    img_url: img,
-                    
-                });
-        } else {
-            raise_modal('Не добавлено', '#ff6363')
-        }
-    })
-    .catch(console.error());
-    router.go(-1);
+    try {
+        uploadBytes(ref(storage,'stolovka-images/food/' + dish + '.'+ file.type.substring(6)), file)
+        .then(async () => {
+            let img = 'gs://stolovka-app.appspot.com/stolovka-images/food/'+dish+'.'+file.type.substring(6);
+            if ((dish && type && price) != 0) {
+                await setDoc(
+                    doc(collection(db, 'buildings', id, 'menu')), 
+                    {   
+                        name: dish,
+                        price: price,
+                        rate: 0,
+                        type: type,
+                        img_url: img,   
+                    });
+            } else {
+                raise_modal('Не добавлено', '#ff6363')
+            }
+        })
+        .then(() => {
+            router.go(-1);
+        })  
+    } catch (error) {
+        console.log(error);
+    }
 }
 </script>
