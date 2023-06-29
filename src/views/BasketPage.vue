@@ -7,7 +7,8 @@
         <div class="cards" id="cards">
             <div v-for="item in items" :key="item.id" class="card" :id="item.id">
                 <div class="info">
-                    {{ item.name }} {{ item.price }} ₽ 
+                    {{ item.name }}<br>
+                    {{ item.price }} ₽ 
                 </div> 
                 <div class="card-buttons">
                     <button class="btn" id="deleteItem" @click="deleteItem(item)">

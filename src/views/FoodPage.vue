@@ -4,14 +4,22 @@
             <div class="head-items">
                 <img class="card-img" :src="item.img_url" alt="food image" >
                 <div class="item-info">
-                    <p>
-                        {{ item.type }} 
+                    <p> 
                         {{ item.name }} 
                         <span class="feedback-mark">
                             {{ item.rate }} &starf;
                         </span>
                     </p>
-                    <div>{{ item.price }} ₽</div>
+                    <p class="info">
+                        Категория: {{ item.type }} <br>
+                        <ul v-if="item.compound">
+                            Состав:
+                            <li v-for="ing in item.compound" :key="ing">
+                                {{ ing }}
+                            </li>
+                        </ul> 
+                    </p>
+                    <div class="price">{{ item.price }} ₽</div>
                 </div>
             </div>
         </div>
@@ -73,6 +81,9 @@
     from {opacity: 0;}
     to {opacity: 1;}
 }
+li {
+    margin-left: 15px;
+}
 .head-items {
     width: 100%;
     height: 100%;
@@ -82,6 +93,7 @@
 .card-img {
     display: flex;
     height: 150px;
+    max-height: 200px;
     width: 100%;
     flex-basis: 50%;
     border-radius: 15px;
@@ -92,14 +104,24 @@
 .item-info {
     color: var(--text-color);
     font-size: 0.7em;
-    height: 150px;
+    min-height: 150px;
+    max-height: 200px;
     flex-grow: 1;
     padding: 10px;
     width: auto;
     display: flex;
     flex-direction: column;
-    text-align: end;
+    text-align: start;
     justify-content: space-between;
+}
+.item-info .info {
+    font-size: 0.7em;   
+    height: 100%;
+    padding-top: 5px;
+    color: var(--text-second-color);
+}
+.item-info .price {
+    text-align: end;
 }
 .feedback-list {
     text-align: center;
@@ -120,6 +142,7 @@
 .feedback-mark {
     color: rgb(255, 168, 54);
     font-size: 1em;
+    white-space:nowrap;
 }
 .feedback {
     padding: 10px;
@@ -151,6 +174,7 @@ a::after {
     -webkit-tap-highlight-color: transparent;
 }
 .btn-review {
+    font-size: 0.9rem;
     outline: 0;
     border: none;
     border-radius: 20px;
@@ -165,10 +189,10 @@ a::after {
 .delete-card-btn {
     color: white;
     height: 40px;
-    max-width: 800px;
+    max-width: 400px;
     background-color: #ff3b3b;
     padding: 10px;
-    font-size: 0.7em;
+    font-size: 0.9rem;
     box-shadow: none;
     margin-top: 0;
     margin-bottom: 20px;
@@ -181,7 +205,7 @@ a::after {
     background-color: #ff3b3b;
     padding: 10px;
     width: fit-content;
-    font-size: 0.8em;
+    font-size: 0.9rem;
 }
 .delete-card-btn:hover {
     background-color: #ff6969;
@@ -246,17 +270,24 @@ onMounted(async () => {
 });
 
 const deleteCard = async (card) => {
-    fbReview.forEach( async (doc_item) => {
-        await deleteDoc(doc(db, 'reviews', doc_item.id))
-    })
-    await deleteDoc(doc(db, 'buildings', id, 'menu', food_id));
-    if (card.img_name != 'stolovka-images/not-found.png') {
-        deleteObject(storageRef(storage, card.img_name ))
-        .catch((error) => {
+    let result = window.confirm("Вы уверены?")
+    if (result) {
+        try {
+            fbReview.forEach( async (doc_item) => {
+                await deleteDoc(doc(db, 'reviews', doc_item.id))
+            })
+            await deleteDoc(doc(db, 'buildings', id, 'menu', food_id));
+            if (card.img_name != 'stolovka-images/not-found.png') {
+                deleteObject(storageRef(storage, card.img_name ))
+                .catch((error) => {
+                    console.log(error);
+                });
+            }
+            router.go(-1);
+        } catch (error) {
             console.log(error);
-        });
+        }   
     }
-    router.go(-1);
 }
 const deleteReview = async (review_id) => {
     if (user_role == 'admin') {

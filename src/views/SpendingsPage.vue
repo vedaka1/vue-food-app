@@ -59,8 +59,11 @@ header {
     font-size: 0.9em;
     display: flex;
 }
+.dish-list p {
+    white-space: nowrap;
+}
 .dish-info {
-    width: 100px;
+    width: 100%;
     text-align: left;
 }
 .dish-list p {

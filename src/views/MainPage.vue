@@ -37,6 +37,7 @@
 }
 .cards {
     width: 100%;
+    max-width: 800px;
     padding-top: 10px;
     border-radius: 15px;
     display: flex;
@@ -80,6 +81,9 @@ a .card-item {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
     overflow: hidden;
 }
+.card-item:hover {
+    background-color: var(--hover);
+}
 p {
     border-radius: 15px;
     width: 100%;
@@ -112,7 +116,7 @@ a::after {
     border-radius: 15px;
 }
 .btn {
-    max-width: 300px;
+    max-width: 400px;
     margin-top: 0;
 }
 .delete-card-btn {
@@ -164,34 +168,37 @@ onMounted(async () => {
 });
 
 const deleteBuilding = async (card) => {
-    if (user_role == 'admin') {
-        const querySnapshot = await getDocs(query(collection(db, 'reviews'), where('building', '==', card.id)));
-        let review_list = [];
-        querySnapshot.forEach((doc) => {
-            review_list.push({id: doc.id});
-        });
-        review_list.forEach( async (doc_item) => {
-            await deleteDoc(doc(db, 'reviews', doc_item.id))
-        });
-        const menuSnapshot = await getDocs(query(collection(db, 'buildings', card.id, 'menu')));
-        let menu_list = [];
-        menuSnapshot.forEach((doc) => {
-            menu_list.push({id: doc.id});
-        });
-        menu_list.forEach( async (doc_item) => {
-            await deleteDoc(doc(db, 'buildings', card.id, 'menu', doc_item.id));
-        });
-        await deleteDoc(doc(db, 'buildings', card.id));
-        document.getElementById(card.id).classList.add('visible');
-        setTimeout(() => {
-            document.getElementById(card.id).style.display = 'none';
-        }, 1000);
-        deleteObject(storageRef(storage, card.img_name ))
-        .catch((error) => {
-            console.log(error);
-        });
-    } else {
-        console.log('Недостаточно прав!');
+    let result = window.confirm("Вы уверены?")
+    if (result) {
+        if (user_role == 'admin') {
+            const querySnapshot = await getDocs(query(collection(db, 'reviews'), where('building', '==', card.id)));
+            let review_list = [];
+            querySnapshot.forEach((doc) => {
+                review_list.push({id: doc.id});
+            });
+            review_list.forEach( async (doc_item) => {
+                await deleteDoc(doc(db, 'reviews', doc_item.id))
+            });
+            const menuSnapshot = await getDocs(query(collection(db, 'buildings', card.id, 'menu')));
+            let menu_list = [];
+            menuSnapshot.forEach((doc) => {
+                menu_list.push({id: doc.id});
+            });
+            menu_list.forEach( async (doc_item) => {
+                await deleteDoc(doc(db, 'buildings', card.id, 'menu', doc_item.id));
+            });
+            await deleteDoc(doc(db, 'buildings', card.id));
+            document.getElementById(card.id).classList.add('visible');
+            setTimeout(() => {
+                document.getElementById(card.id).style.display = 'none';
+            }, 1000);
+            deleteObject(storageRef(storage, card.img_name ))
+            .catch((error) => {
+                console.log(error);
+            });
+        } else {
+            console.log('Недостаточно прав!');
+        }
     }
 }
 </script>

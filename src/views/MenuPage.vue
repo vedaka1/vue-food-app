@@ -20,7 +20,8 @@
                         </RouterLink>
                         <div class="card-info">
                             <div class="card-name">
-                                <span>{{ item.name }}</span> <span class="food-rate">{{ item.rate }} &starf;</span>
+                                {{ item.name }}
+                                 <span class="food-rate"> {{ item.rate }} &starf;</span>
                             </div>
                             <div class="card-price">
                                 <div>
@@ -130,11 +131,13 @@ a::after {
 .card-name {
     width: 100%;
     font-size: 1em;
+    height: 32px;
 }
 .card-price {
     align-items: center;
     font-size: 1.1em;
     height: 100%;
+    height: 30px;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -151,6 +154,9 @@ a::after {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
     overflow: hidden;
     position: relative;
+}
+.card-items:hover {
+    background-color: var(--hover);
 }
 .card-info {
     flex-basis: 25%;
@@ -170,6 +176,7 @@ a .card-img {
 }
 .food-rate {
     color: rgb(255, 168, 54);
+    white-space: nowrap;
 }
 .item-counter {
     width: 20px;
@@ -209,7 +216,7 @@ a .card-img {
 }
 .btn {
     margin: 0 auto;
-    max-width: 500px;
+    max-width: 400px;
     margin-bottom: 10px;
 }
 </style>

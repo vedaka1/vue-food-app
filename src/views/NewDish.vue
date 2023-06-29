@@ -113,29 +113,33 @@ const add = async () => {
     const dish = document.getElementById('dish').value;
     const type = document.getElementById('type').value;
     const price = document.getElementById('price').value;
-    try {
-        uploadBytes(ref(storage,'stolovka-images/food/' + dish + '.'+ file.type.substring(6)), file)
-        .then(async () => {
-            let img = 'gs://stolovka-app.appspot.com/stolovka-images/food/'+dish+'.'+file.type.substring(6);
-            if ((dish && type && price) != 0) {
-                await setDoc(
-                    doc(collection(db, 'buildings', id, 'menu')), 
-                    {   
-                        name: dish,
-                        price: price,
-                        rate: 0,
-                        type: type,
-                        img_url: img,   
-                    });
-            } else {
-                raise_modal('Не добавлено', '#ff6363')
-            }
-        })
-        .then(() => {
-            router.go(-1);
-        })  
-    } catch (error) {
-        console.log(error);
+    if (file && dish && type && price) {
+        document.getElementById('btn').ariaDisabled = 'true'
+        try {
+            uploadBytes(ref(storage,'stolovka-images/food/' + dish + '.'+ file.type.substring(6)), file)
+            .then(async () => {
+                let img = 'gs://stolovka-app.appspot.com/stolovka-images/food/'+dish+'.'+file.type.substring(6);
+                if ((dish && type && price) != 0) {
+                    await setDoc(
+                        doc(collection(db, 'buildings', id, 'menu')), 
+                        {   
+                            name: dish,
+                            price: price,
+                            rate: 0,
+                            type: type,
+                            img_url: img,   
+                        });
+                } else {
+                    raise_modal('Не добавлено', '#ff6363')
+                }
+            })
+            .then(() => {
+                router.go(-1);
+            })  
+        } catch (error) {
+            alert(error);
+            console.log(error);
+        }
     }
 }
 </script>

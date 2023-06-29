@@ -139,8 +139,9 @@ const add = async () => {
         .then(() => {
         router.push('/');
         })
-    } catch {
-        console.error()
+    } catch (error) {
+        alert(error);
+        console.log(error)
     }
 }
 </script>
