@@ -1,8 +1,17 @@
-# vue-food-app
+# NARFood website
 
 ## Description
-Веб-сайт с меню столовых университета САФУ. 
-Есть возможность добавлять блюда в корзину и отслеживать свои расходы
+Веб-сайт для столовых университета САФУ. 
+
+Пользователи могут:
+- Регистрироваться
+- Оставлять и удалять свои отзывы
+- Добавлять блюда в корзину и следить за своими расходами
+
+Администраторы могут:
+- Удалять отзывы
+- Добавлять и удалять столовые
+- Добавлять и удалять блюда в столовых
 
 ## Required
 [Node.js](https://nodejs.org/en)
@@ -26,6 +35,7 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Used
+- Vue.js
+- Firebase Authentication
+- Firebase Firestore Database
