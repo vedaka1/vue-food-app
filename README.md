@@ -1,19 +1,20 @@
 # NARFood website
 
 ## Description
-Веб-сайт для столовых университета САФУ. 
+The website for the cafeterias of the NARFU
 
-Пользователи могут:
-- Регистрироваться
-- Оставлять и удалять свои отзывы
-- Добавлять блюда в корзину и следить за своими расходами
+## Main functionality
+Users can:
+- Register and Login
+- Rate your favorite dishes
+- Add dishes to the cart and check your spendings
 
-Администраторы могут:
-- Удалять отзывы
-- Добавлять и удалять столовые
-- Добавлять и удалять блюда в столовых
+Administator can:
+- Delete user reviews
+- Add and delete cafeterias
+- add and delete dishes from the cafeteria menu
 
-## Required
+## Dependencies
 [Node.js](https://nodejs.org/en)
 
 ## Project setup
@@ -35,7 +36,7 @@ npm run build
 ```
 npm run lint
 ```
-## Used
+## Tech stack
 - Vue.js
-- Firebase Authentication
-- Firebase Firestore Database
+- Firebase
+- HTML/CSS
